@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import axios from 'axios';
-import './App.css'; // Make sure to create and update this CSS file
+import './App.css';
 
 const concepts = {
   Container: ["equipmentTypeCode", "containerNumber", "containerSize", "containerType"],
@@ -73,6 +73,7 @@ const DropArea = ({ fields, setFields }) => {
 
   return (
     <div ref={drop} className="drop-area">
+      <h3 className="profile-title">Profile</h3>
       {Object.keys(fields).length === 0 ? (
         <p className="drop-placeholder">Drag fields here...</p>
       ) : (
@@ -110,13 +111,12 @@ const App = () => {
 
   const handleStartClick = () => {
     setShowProfileBuilder(true);
-  
     setTimeout(() => {
       const element = document.getElementById('profile-builder');
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 100); // Small delay to ensure rendering
+    }, 100);
   };
 
   const handleSubmit = async () => {
