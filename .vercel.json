@@ -5,3 +5,14 @@
     }
   }
 }
+
+
+{
+  "redirects": [
+    {
+      "source": "https://interoperabilityagent-*.vercel.app",
+      "destination": "https://interoperabilityagent.eu",
+      "permanent": true
+    }
+  ]
+}
