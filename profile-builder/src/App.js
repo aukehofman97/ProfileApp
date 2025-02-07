@@ -63,27 +63,33 @@ const DropArea = ({ fields, setFields }) => {
         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
       }}
     >
-      <h3>Profile Fields</h3>
-      {fields.map((field, index) => (
-        <div
-          key={index}
-          style={{
-            padding: "10px",
-            background: "#64B5F6",
-            borderRadius: "6px",
-            margin: "5px 0",
-            fontWeight: "bold",
-          }}
-        >
-          {field}
-        </div>
-      ))}
+      {fields.length === 0 ? (
+        <p style={{ opacity: 0.6 }}>Drag fields here...</p>
+      ) : (
+        <>
+          <h3>Profile Fields</h3>
+          {fields.map((field, index) => (
+            <div
+              key={index}
+              style={{
+                padding: "10px",
+                background: "#64B5F6",
+                borderRadius: "6px",
+                margin: "5px 0",
+                fontWeight: "bold",
+              }}
+            >
+              {field}
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 };
 
 const App = () => {
-  const [fields, setFields] = useState([]);
+  const [fields, setFields] = useState([]); // ✅ Starts EMPTY
 
   const handleSubmit = async () => {
     const jsonProfile = { fields };
