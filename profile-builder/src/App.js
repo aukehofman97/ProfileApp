@@ -4,38 +4,14 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import axios from "axios";
 
 const concepts = {
-  Container: [
-    "equipmentTypeCode",
-    "containerNumber",
-    "containerSize",
-    "containerType",
-    "sealIndicator",
-    "isEmpty",
-    "isFull",
-    "equipmentProperties",
-    "equipmentCategoryCode",
-    "equipmentContainerITUCode",
-    "hasNumberOfCollies",
-  ],
-  Goods: [
-    "goodsTypeCode",
-    "typeOfCargo",
-    "natureOfCargo",
-    "PackageTypeNumericCode",
-    "packageCode",
-    "packageTypeName",
-    "shippingMarks",
-    "numberOfTEU",
-    "numberofPackages",
-    "goodsDescription",
-    "goodsNumbers",
-  ],
-  Vessel: ["vesselName", "transportMeansMode", "vesselType", "voyageNumber", "vesselId"],
-  Truck: ["hasVIN", "hasTransportmeansNationality", "transportMeansMode", "truckLicensePlate"],
-  Wagon: ["wagonBrakeType", "wagonBrakeWeight", "wagonMaximumSpeed", "wagonNrAxel", "wagonId"],
+  Container: ["equipmentTypeCode", "containerNumber", "containerSize", "containerType"],
+  Goods: ["goodsTypeCode", "typeOfCargo", "natureOfCargo", "PackageTypeNumericCode"],
+  Vessel: ["vesselName", "transportMeansMode", "vesselType"],
+  Truck: ["hasVIN", "truckLicensePlate", "transportMeansMode"],
+  Wagon: ["wagonBrakeType", "wagonMaximumSpeed", "wagonNrAxel"],
 };
 
-const DraggableItem = ({ name, type, concept }) => {
+const DraggableItem = ({ name, type, concept, toggleExpand, expanded }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "FIELD",
     item: { name, type, concept },
@@ -47,20 +23,30 @@ const DraggableItem = ({ name, type, concept }) => {
   return (
     <div
       ref={drag}
+      onClick={() => type === "supertype" && toggleExpand(concept)}
       style={{
-        padding: "8px",
+        padding: "6px 10px",
         margin: "4px",
         backgroundColor: type === "supertype" ? "#1565C0" : "#1E88E5",
         color: "white",
         borderRadius: "6px",
-        textAlign: "center",
+        textAlign: "left",
         fontWeight: "bold",
         cursor: "grab",
         opacity: isDragging ? 0.6 : 1,
-        fontSize: "14px",
+        fontSize: "12px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "180px",
       }}
     >
       {name}
+      {type === "supertype" && (
+        <span style={{ fontSize: "14px", cursor: "pointer" }}>
+          {expanded ? "🔽" : "▶"}
+        </span>
+      )}
     </div>
   );
 };
@@ -73,19 +59,16 @@ const DropArea = ({ fields, setFields }) => {
         const updatedFields = { ...prev };
 
         if (item.type === "supertype") {
-          // Add all properties under the concept group
           updatedFields[item.name] = concepts[item.name].map((prop) => ({
             name: prop,
             type: "subtype",
           }));
         } else {
-          // Add a single property under the correct concept
           if (!updatedFields[item.concept]) {
             updatedFields[item.concept] = [];
           }
           updatedFields[item.concept].push({ name: item.name, type: "subtype" });
         }
-
         return updatedFields;
       });
     },
@@ -97,13 +80,11 @@ const DropArea = ({ fields, setFields }) => {
   const removeItem = (concept, itemName) => {
     setFields((prev) => {
       const updatedFields = { ...prev };
-
       updatedFields[concept] = updatedFields[concept].filter((item) => item.name !== itemName);
 
       if (updatedFields[concept].length === 0) {
-        delete updatedFields[concept]; // Remove empty concepts
+        delete updatedFields[concept];
       }
-
       return updatedFields;
     });
   };
@@ -119,47 +100,50 @@ const DropArea = ({ fields, setFields }) => {
         backgroundColor: isOver ? "#0D47A1" : "#1A237E",
         color: "white",
         borderRadius: "8px",
-        textAlign: "center",
+        textAlign: "left",
+        fontSize: "12px",
         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
       }}
     >
       {Object.keys(fields).length === 0 ? (
-        <p style={{ opacity: 0.6 }}>Drag fields here...</p>
+        <p style={{ opacity: 0.6, textAlign: "center" }}>Drag fields here...</p>
       ) : (
         Object.keys(fields).map((concept) => (
-          <div key={concept} style={{ marginBottom: "10px" }}>
-            <h4 style={{ color: "#64B5F6", marginBottom: "5px" }}>{concept}</h4>
-            {fields[concept].map((field, index) => (
-              <div
-                key={index}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "6px",
-                  background: "#64B5F6",
-                  borderRadius: "6px",
-                  margin: "3px 0",
-                  fontWeight: "bold",
-                  fontSize: "12px",
-                }}
-              >
-                {field.name}
-                <button
-                  onClick={() => removeItem(concept, field.name)}
+          <div key={concept} style={{ marginBottom: "8px" }}>
+            <h4 style={{ color: "#64B5F6", marginBottom: "4px", fontSize: "14px" }}>{concept}</h4>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+              {fields[concept].map((field, index) => (
+                <div
+                  key={index}
                   style={{
-                    background: "none",
-                    border: "none",
-                    color: "white",
-                    cursor: "pointer",
-                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "4px 8px",
+                    background: "#64B5F6",
+                    borderRadius: "6px",
+                    fontSize: "10px",
                     fontWeight: "bold",
+                    minWidth: "120px",
                   }}
                 >
-                  ➖
-                </button>
-              </div>
-            ))}
+                  {field.name}
+                  <button
+                    onClick={() => removeItem(concept, field.name)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "white",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    ➖
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         ))
       )}
@@ -208,22 +192,25 @@ const App = () => {
               backgroundColor: "#1A237E",
               padding: "20px",
               borderRadius: "8px",
-              width: "300px",
+              width: "260px",
               textAlign: "center",
               boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
             }}
           >
             <h3>Available Fields</h3>
             {Object.keys(concepts).map((concept) => (
-              <div key={concept} style={{ marginBottom: "10px" }}>
-                <DraggableItem name={concept} type="supertype" concept={concept} />
+              <div key={concept} style={{ marginBottom: "5px" }}>
+                <DraggableItem
+                  name={concept}
+                  type="supertype"
+                  concept={concept}
+                  toggleExpand={toggleExpand}
+                  expanded={expandedConcepts[concept]}
+                />
                 {expandedConcepts[concept] &&
                   concepts[concept].map((prop, idx) => (
                     <DraggableItem key={idx} name={prop} type="subtype" concept={concept} />
                   ))}
-                <button onClick={() => toggleExpand(concept)} style={{ cursor: "pointer" }}>
-                  {expandedConcepts[concept] ? "🔽 Collapse" : "▶ Expand"}
-                </button>
               </div>
             ))}
           </div>
