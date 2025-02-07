@@ -53,3 +53,40 @@ body {
   padding: 20px;
   /* Add additional styling for your profile builder */
 }
+.drag-drop-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.available-fields {
+  width: 40%;
+  background: #1A237E;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.profile-box {
+  width: 50%;
+  background: rgba(100, 181, 246, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid #64B5F6;
+}
+
+.save-button {
+  background-color: #64B5F6;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #42A5F5;
+}

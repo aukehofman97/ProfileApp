@@ -22,11 +22,7 @@ const DraggableItem = ({ name, type, concept, toggleExpand, expanded }) => {
   }));
 
   return (
-    <div
-      ref={drag}
-      onClick={() => type === "supertype" && toggleExpand(concept)}
-      className={`draggable-item ${type === "supertype" ? "supertype" : "subtype"}`}
-    >
+    <div ref={drag} className={`draggable-item ${type === "supertype" ? "supertype" : "subtype"}`} onClick={() => type === "supertype" && toggleExpand(concept)}>
       {name}
       {type === "supertype" && (
         <span className="expand-icon">{expanded ? "🔽" : "▶"}</span>
@@ -72,7 +68,7 @@ const DropArea = ({ fields, setFields }) => {
   };
 
   return (
-    <div ref={drop} className="drop-area">
+    <div ref={drop} className="profile-box">
       <h3 className="profile-title">Profile</h3>
       {Object.keys(fields).length === 0 ? (
         <p className="drop-placeholder">Drag fields here...</p>
