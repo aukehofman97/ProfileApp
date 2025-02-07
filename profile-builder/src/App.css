@@ -1,38 +1,55 @@
-.App {
-  text-align: center;
+/* Import the futuristic font */
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Exo 2', sans-serif;
+  background-color: #0d1117;
+  color: #ffffff;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-header {
+  display: flex;
+  justify-content: flex-start;
+  padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.app-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #64b5f6;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.landing-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 80vh;
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+.landing-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.start-button {
+  background-color: #64b5f6;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.start-button:hover {
+  background-color: #42a5f5;
+}
+
+.profile-builder-section {
+  padding: 20px;
+  /* Add additional styling for your profile builder */
 }

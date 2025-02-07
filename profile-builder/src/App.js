@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import axios from "axios";
+import React, { useState } from 'react';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import axios from 'axios';
+import './App.css'; // Make sure to create and update this CSS file
 
 const concepts = {
   Container: ["equipmentTypeCode", "containerNumber", "containerSize", "containerType"],
@@ -24,28 +25,11 @@ const DraggableItem = ({ name, type, concept, toggleExpand, expanded }) => {
     <div
       ref={drag}
       onClick={() => type === "supertype" && toggleExpand(concept)}
-      style={{
-        padding: "6px 10px",
-        margin: "4px",
-        backgroundColor: type === "supertype" ? "#1565C0" : "#1E88E5",
-        color: "white",
-        borderRadius: "6px",
-        textAlign: "left",
-        fontWeight: "bold",
-        cursor: "grab",
-        opacity: isDragging ? 0.6 : 1,
-        fontSize: "12px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        width: "180px",
-      }}
+      className={`draggable-item ${type === "supertype" ? "supertype" : "subtype"}`}
     >
       {name}
       {type === "supertype" && (
-        <span style={{ fontSize: "14px", cursor: "pointer" }}>
-          {expanded ? "🔽" : "▶"}
-        </span>
+        <span className="expand-icon">{expanded ? "🔽" : "▶"}</span>
       )}
     </div>
   );
@@ -57,7 +41,6 @@ const DropArea = ({ fields, setFields }) => {
     drop: (item) => {
       setFields((prev) => {
         const updatedFields = { ...prev };
-
         if (item.type === "supertype") {
           updatedFields[item.name] = concepts[item.name].map((prop) => ({
             name: prop,
@@ -81,7 +64,6 @@ const DropArea = ({ fields, setFields }) => {
     setFields((prev) => {
       const updatedFields = { ...prev };
       updatedFields[concept] = updatedFields[concept].filter((item) => item.name !== itemName);
-
       if (updatedFields[concept].length === 0) {
         delete updatedFields[concept];
       }
@@ -90,55 +72,18 @@ const DropArea = ({ fields, setFields }) => {
   };
 
   return (
-    <div
-      ref={drop}
-      style={{
-        flex: 1,
-        padding: "15px",
-        minHeight: "200px",
-        border: "2px dashed #BBDEFB",
-        backgroundColor: isOver ? "#0D47A1" : "#1A237E",
-        color: "white",
-        borderRadius: "8px",
-        textAlign: "left",
-        fontSize: "12px",
-        boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
-      }}
-    >
+    <div ref={drop} className="drop-area">
       {Object.keys(fields).length === 0 ? (
-        <p style={{ opacity: 0.6, textAlign: "center" }}>Drag fields here...</p>
+        <p className="drop-placeholder">Drag fields here...</p>
       ) : (
         Object.keys(fields).map((concept) => (
-          <div key={concept} style={{ marginBottom: "8px" }}>
-            <h4 style={{ color: "#64B5F6", marginBottom: "4px", fontSize: "14px" }}>{concept}</h4>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+          <div key={concept} className="concept-group">
+            <h4 className="concept-title">{concept}</h4>
+            <div className="field-list">
               {fields[concept].map((field, index) => (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "4px 8px",
-                    background: "#64B5F6",
-                    borderRadius: "6px",
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    minWidth: "120px",
-                  }}
-                >
+                <div key={index} className="profile-field">
                   {field.name}
-                  <button
-                    onClick={() => removeItem(concept, field.name)}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      color: "white",
-                      cursor: "pointer",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                    }}
-                  >
+                  <button className="delete-btn" onClick={() => removeItem(concept, field.name)}>
                     ➖
                   </button>
                 </div>
@@ -154,12 +99,18 @@ const DropArea = ({ fields, setFields }) => {
 const App = () => {
   const [fields, setFields] = useState({});
   const [expandedConcepts, setExpandedConcepts] = useState({});
+  const [showProfileBuilder, setShowProfileBuilder] = useState(false);
 
   const toggleExpand = (concept) => {
     setExpandedConcepts((prev) => ({
       ...prev,
       [concept]: !prev[concept],
     }));
+  };
+
+  const handleStartClick = () => {
+    setShowProfileBuilder(true);
+    document.getElementById('profile-builder').scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleSubmit = async () => {
@@ -176,46 +127,46 @@ const App = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div
-        style={{
-          backgroundColor: "#0D1117",
-          minHeight: "100vh",
-          padding: "20px",
-          color: "white",
-          fontFamily: "'Arial', sans-serif",
-        }}
-      >
-        <h2 style={{ textAlign: "center", color: "#64B5F6" }}>Profile Builder</h2>
-        <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
-          <div
-            style={{
-              backgroundColor: "#1A237E",
-              padding: "20px",
-              borderRadius: "8px",
-              width: "260px",
-              textAlign: "center",
-              boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
-            }}
-          >
-            <h3>Available Fields</h3>
-            {Object.keys(concepts).map((concept) => (
-              <div key={concept} style={{ marginBottom: "5px" }}>
-                <DraggableItem
-                  name={concept}
-                  type="supertype"
-                  concept={concept}
-                  toggleExpand={toggleExpand}
-                  expanded={expandedConcepts[concept]}
-                />
-                {expandedConcepts[concept] &&
-                  concepts[concept].map((prop, idx) => (
-                    <DraggableItem key={idx} name={prop} type="subtype" concept={concept} />
+      <div className="app-container">
+        <header className="app-header">
+          <h1 className="app-title">Interoperability Agent</h1>
+        </header>
+        <main>
+          <section className="landing-section">
+            <h2 className="landing-title">Create Your Profile Now</h2>
+            <button className="start-button" onClick={handleStartClick}>
+              Start
+            </button>
+          </section>
+          {showProfileBuilder && (
+            <section id="profile-builder" className="profile-builder-section">
+              <div className="drag-drop-container">
+                <div className="available-fields">
+                  <h3>Available Fields</h3>
+                  {Object.keys(concepts).map((concept) => (
+                    <div key={concept}>
+                      <DraggableItem
+                        name={concept}
+                        type="supertype"
+                        concept={concept}
+                        toggleExpand={toggleExpand}
+                        expanded={expandedConcepts[concept]}
+                      />
+                      {expandedConcepts[concept] &&
+                        concepts[concept].map((prop, idx) => (
+                          <DraggableItem key={idx} name={prop} type="subtype" concept={concept} />
+                        ))}
+                    </div>
                   ))}
+                </div>
+                <DropArea fields={fields} setFields={setFields} />
               </div>
-            ))}
-          </div>
-          <DropArea fields={fields} setFields={setFields} />
-        </div>
+              <button className="save-button" onClick={handleSubmit}>
+                Save Profile
+              </button>
+            </section>
+          )}
+        </main>
       </div>
     </DndProvider>
   );
