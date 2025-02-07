@@ -3,16 +3,42 @@ import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import axios from "axios";
 
-const FieldTypes = {
-  TEXT: "Text Field",
-  NUMBER: "Number Field",
-  DATE: "Date Field",
+const concepts = {
+  Container: [
+    "equipmentTypeCode",
+    "containerNumber",
+    "containerSize",
+    "containerType",
+    "sealIndicator",
+    "isEmpty",
+    "isFull",
+    "equipmentProperties",
+    "equipmentCategoryCode",
+    "equipmentContainerITUCode",
+    "hasNumberOfCollies",
+  ],
+  Goods: [
+    "goodsTypeCode",
+    "typeOfCargo",
+    "natureOfCargo",
+    "PackageTypeNumericCode",
+    "packageCode",
+    "packageTypeName",
+    "shippingMarks",
+    "numberOfTEU",
+    "numberofPackages",
+    "goodsDescription",
+    "goodsNumbers",
+  ],
+  Vessel: ["vesselName", "transportMeansMode", "vesselType", "voyageNumber", "vesselId"],
+  Truck: ["hasVIN", "hasTransportmeansNationality", "transportMeansMode", "truckLicensePlate"],
+  Wagon: ["wagonBrakeType", "wagonBrakeWeight", "wagonMaximumSpeed", "wagonNrAxel", "wagonId"],
 };
 
-const Field = ({ field }) => {
+const DraggableItem = ({ name, type }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "FIELD",
-    item: { field },
+    item: { name, type },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -22,9 +48,9 @@ const Field = ({ field }) => {
     <div
       ref={drag}
       style={{
-        padding: "12px",
-        margin: "8px 0",
-        backgroundColor: "#1E88E5",
+        padding: "10px",
+        margin: "5px 0",
+        backgroundColor: type === "supertype" ? "#1565C0" : "#1E88E5",
         color: "white",
         borderRadius: "8px",
         textAlign: "center",
@@ -34,7 +60,7 @@ const Field = ({ field }) => {
         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
       }}
     >
-      {field}
+      {name}
     </div>
   );
 };
@@ -42,7 +68,19 @@ const Field = ({ field }) => {
 const DropArea = ({ fields, setFields }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "FIELD",
-    drop: (item) => setFields((prev) => [...prev, item.field]),
+    drop: (item) => {
+      if (item.type === "supertype") {
+        // Add all properties if a supertype is dragged
+        setFields((prev) => [
+          ...prev,
+          { name: item.name, type: "supertype" },
+          ...concepts[item.name].map((prop) => ({ name: prop, type: "subtype" })),
+        ]);
+      } else {
+        // Add a single property if a subtype is dragged
+        setFields((prev) => [...prev, { name: item.name, type: "subtype" }]);
+      }
+    },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -73,13 +111,13 @@ const DropArea = ({ fields, setFields }) => {
               key={index}
               style={{
                 padding: "10px",
-                background: "#64B5F6",
+                background: field.type === "supertype" ? "#64B5F6" : "#90CAF9",
                 borderRadius: "6px",
                 margin: "5px 0",
                 fontWeight: "bold",
               }}
             >
-              {field}
+              {field.name}
             </div>
           ))}
         </>
@@ -89,10 +127,18 @@ const DropArea = ({ fields, setFields }) => {
 };
 
 const App = () => {
-  const [fields, setFields] = useState([]); // ✅ Starts EMPTY
+  const [fields, setFields] = useState([]);
+  const [expandedConcepts, setExpandedConcepts] = useState({});
+
+  const toggleExpand = (concept) => {
+    setExpandedConcepts((prev) => ({
+      ...prev,
+      [concept]: !prev[concept],
+    }));
+  };
 
   const handleSubmit = async () => {
-    const jsonProfile = { fields };
+    const jsonProfile = { fields: fields.map((f) => f.name) };
     console.log("Generated JSON:", jsonProfile);
 
     try {
@@ -121,14 +167,35 @@ const App = () => {
               backgroundColor: "#1A237E",
               padding: "20px",
               borderRadius: "8px",
-              width: "200px",
+              width: "300px",
               textAlign: "center",
               boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
             }}
           >
             <h3>Available Fields</h3>
-            {Object.values(FieldTypes).map((field, index) => (
-              <Field key={index} field={field} />
+            {Object.keys(concepts).map((concept) => (
+              <div key={concept} style={{ marginBottom: "10px" }}>
+                <div
+                  style={{
+                    padding: "10px",
+                    backgroundColor: "#1976D2",
+                    color: "white",
+                    borderRadius: "8px",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                    boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+                  }}
+                  onClick={() => toggleExpand(concept)}
+                >
+                  {expandedConcepts[concept] ? "▼ " : "▶ "} {concept}
+                </div>
+                {expandedConcepts[concept] &&
+                  concepts[concept].map((prop, idx) => (
+                    <DraggableItem key={idx} name={prop} type="subtype" />
+                  ))}
+                <DraggableItem name={concept} type="supertype" />
+              </div>
             ))}
           </div>
           <DropArea fields={fields} setFields={setFields} />
