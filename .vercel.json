@@ -1,0 +1,19 @@
+{
+  "rootDirectory": "profile-builder",
+  "build": {
+    "env": {
+      "NODE_VERSION": "18"
+    }
+  }
+}
+
+
+{
+  "redirects": [
+    {
+      "source": "https://interoperabilityagent-*.vercel.app",
+      "destination": "https://interoperabilityagent.eu",
+      "permanent": true
+    }
+  ]
+}
