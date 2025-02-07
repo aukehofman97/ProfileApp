@@ -9,7 +9,7 @@ const FieldTypes = {
   DATE: "Date Field",
 };
 
-const Field = ({ field, index }) => {
+const Field = ({ field }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "FIELD",
     item: { field },
@@ -22,11 +22,16 @@ const Field = ({ field, index }) => {
     <div
       ref={drag}
       style={{
-        padding: "10px",
-        margin: "5px",
-        backgroundColor: "lightgray",
+        padding: "12px",
+        margin: "8px 0",
+        backgroundColor: "#1E88E5",
+        color: "white",
+        borderRadius: "8px",
+        textAlign: "center",
+        fontWeight: "bold",
         cursor: "grab",
-        opacity: isDragging ? 0.5 : 1,
+        opacity: isDragging ? 0.6 : 1,
+        boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
       }}
     >
       {field}
@@ -47,14 +52,29 @@ const DropArea = ({ fields, setFields }) => {
     <div
       ref={drop}
       style={{
+        flex: 1,
         padding: "20px",
-        minHeight: "150px",
-        border: "2px dashed gray",
-        backgroundColor: isOver ? "lightblue" : "white",
+        minHeight: "200px",
+        border: "2px dashed #BBDEFB",
+        backgroundColor: isOver ? "#0D47A1" : "#1A237E",
+        color: "white",
+        borderRadius: "8px",
+        textAlign: "center",
+        boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
       }}
     >
+      <h3>Profile Fields</h3>
       {fields.map((field, index) => (
-        <div key={index} style={{ padding: "5px", background: "lightgreen" }}>
+        <div
+          key={index}
+          style={{
+            padding: "10px",
+            background: "#64B5F6",
+            borderRadius: "6px",
+            margin: "5px 0",
+            fontWeight: "bold",
+          }}
+        >
           {field}
         </div>
       ))}
@@ -79,17 +99,52 @@ const App = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <h2>Profile Builder</h2>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>
-          <h3>Available Fields</h3>
-          {Object.values(FieldTypes).map((field, index) => (
-            <Field key={index} field={field} index={index} />
-          ))}
+      <div
+        style={{
+          backgroundColor: "#0D1117",
+          minHeight: "100vh",
+          padding: "20px",
+          color: "white",
+          fontFamily: "'Arial', sans-serif",
+        }}
+      >
+        <h2 style={{ textAlign: "center", color: "#64B5F6" }}>Profile Builder</h2>
+        <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+          <div
+            style={{
+              backgroundColor: "#1A237E",
+              padding: "20px",
+              borderRadius: "8px",
+              width: "200px",
+              textAlign: "center",
+              boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            <h3>Available Fields</h3>
+            {Object.values(FieldTypes).map((field, index) => (
+              <Field key={index} field={field} />
+            ))}
+          </div>
+          <DropArea fields={fields} setFields={setFields} />
         </div>
-        <DropArea fields={fields} setFields={setFields} />
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <button
+            onClick={handleSubmit}
+            style={{
+              backgroundColor: "#64B5F6",
+              color: "white",
+              padding: "10px 20px",
+              border: "none",
+              borderRadius: "6px",
+              fontWeight: "bold",
+              cursor: "pointer",
+              boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            Save Profile
+          </button>
+        </div>
       </div>
-      <button onClick={handleSubmit}>Save Profile</button>
     </DndProvider>
   );
 };
