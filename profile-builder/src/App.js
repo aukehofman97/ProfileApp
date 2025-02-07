@@ -110,7 +110,13 @@ const App = () => {
 
   const handleStartClick = () => {
     setShowProfileBuilder(true);
-    document.getElementById('profile-builder').scrollIntoView({ behavior: 'smooth' });
+  
+    setTimeout(() => {
+      const element = document.getElementById('profile-builder');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100); // Small delay to ensure rendering
   };
 
   const handleSubmit = async () => {
