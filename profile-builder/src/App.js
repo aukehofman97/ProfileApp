@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
 import axios from 'axios';
 import './App.css';
 
@@ -56,17 +58,6 @@ const DropArea = ({ fields, setFields }) => {
     }),
   }));
 
-  const removeItem = (concept, itemName) => {
-    setFields((prev) => {
-      const updatedFields = { ...prev };
-      updatedFields[concept] = updatedFields[concept].filter((item) => item.name !== itemName);
-      if (updatedFields[concept].length === 0) {
-        delete updatedFields[concept];
-      }
-      return updatedFields;
-    });
-  };
-
   return (
     <div ref={drop} className="profile-box">
       <h3 className="profile-title">Profile</h3>
@@ -115,20 +106,29 @@ const App = () => {
     }, 100);
   };
 
-  const handleSubmit = async () => {
-    const jsonProfile = { fields };
-    console.log("Generated JSON:", jsonProfile);
-
-    try {
-      await axios.post("http://127.0.0.1:8000/api/profile", jsonProfile);
-      alert("Profile saved!");
-    } catch (error) {
-      console.error("Error saving profile:", error);
-    }
-  };
-
   return (
     <DndProvider backend={HTML5Backend}>
+      <Particles 
+        id="particles-js"
+        init={loadFull}
+        options={{
+          background: { color: "#0D1117" },
+          particles: {
+            number: { value: 60 },
+            color: { value: "#64B5F6" },
+            shape: { type: "circle" },
+            opacity: { value: 0.8 },
+            size: { value: 3 },
+            move: { enable: true, speed: 1.5 },
+            links: {
+              enable: true,
+              distance: 120,
+              color: "#64B5F6",
+              opacity: 0.5,
+            },
+          },
+        }}
+      />
       <div className="app-container">
         <header className="app-header">
           <h1 className="app-title">Interoperability Agent</h1>
@@ -163,7 +163,7 @@ const App = () => {
                 </div>
                 <DropArea fields={fields} setFields={setFields} />
               </div>
-              <button className="save-button" onClick={handleSubmit}>
+              <button className="save-button">
                 Save Profile
               </button>
             </section>

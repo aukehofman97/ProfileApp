@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tsparticles/react": "^3.0.0",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
     "react": "^19.0.0",
@@ -10,6 +11,8 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.0.0",
     "react-scripts": "5.0.1",
+    "react-tsparticles": "^2.12.2",
+    "tsparticles": "^3.8.1",
     "web-vitals": "^4.2.4"
   },
   "scripts": {
