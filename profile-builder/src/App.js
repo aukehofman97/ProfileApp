@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import Particles from "react-tsparticles";
+import { Particles } from "@tsparticles/react";
+import { loadFull } from "tsparticles-engine";
 import axios from 'axios';
 import './App.css';
 
@@ -116,19 +117,37 @@ const App = () => {
     }, 100);
   };
 
+  // Initialize Particles
+  const particlesInit = useCallback(async (engine) => {
+    await loadFull(engine);
+  }, []);
+
   return (
     <DndProvider backend={HTML5Backend}>
-      <Particles 
+      {/* Background Particles */}
+      <Particles
         id="particles-js"
+        init={particlesInit}
         options={{
           background: { color: "#0D1117" },
           particles: {
             number: { value: 80 },
             color: { value: "#64B5F6" },
             shape: { type: "circle" },
-            opacity: { value: 0.7 },
-            size: { value: 3 },
-            move: { enable: true, speed: 1.5 },
+            opacity: {
+              value: 0.7,
+              animation: {
+                enable: true,
+                speed: 0.5,
+                minimumValue: 0.3,
+                sync: false
+              }
+            },
+            size: { value: 2 },
+            move: {
+              enable: true,
+              speed: 1,
+            },
             links: {
               enable: true,
               distance: 130,
@@ -138,6 +157,7 @@ const App = () => {
           },
         }}
       />
+
       <div className="app-container">
         <header className="app-header">
           <h1 className="app-title">Interoperability Agent</h1>
