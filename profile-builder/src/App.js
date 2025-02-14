@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Particles } from "@tsparticles/react";
-import { loadFull } from "tsparticles-engine";
+import { loadFull } from "@tsparticles/engine";
 import axios from 'axios';
 import './App.css';
 
