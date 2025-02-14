@@ -25,9 +25,10 @@ body {
 }
 
 .app-title {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #64b5f6;
+  text-shadow: 0px 0px 8px rgba(100, 181, 246, 0.8);
 }
 
 /* Landing Section */
@@ -46,127 +47,189 @@ body {
 }
 
 .start-button {
-  background-color: #64b5f6;
+  background: linear-gradient(135deg, #64b5f6, #1E88E5);
   color: #ffffff;
   border: none;
   padding: 12px 24px;
   font-size: 1.2rem;
-  border-radius: 25px;
+  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(100, 181, 246, 0.5);
 }
 
 .start-button:hover {
-  background-color: #42a5f5;
-  transform: scale(1.05);
+  background: linear-gradient(135deg, #42a5f5, #1565C0);
+  transform: scale(1.07);
 }
 
 /* Profile Builder Section */
 .profile-builder-section {
   padding: 40px 20px;
-}
-
-/* Drag & Drop Containers */
-.drag-drop-container {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Available Fields Section */
-.available-fields {
-  width: 40%;
-  background: #1A237E;
-  padding: 20px;
+/* Profile Name Input */
+.profile-name-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.profile-name-input {
+  background: rgba(100, 181, 246, 0.1);
+  border: 2px solid rgba(100, 181, 246, 0.5);
+  color: white;
+  padding: 12px 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
   border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  width: 50%;
+  backdrop-filter: blur(12px);
+  box-shadow: 0px 4px 10px rgba(100, 181, 246, 0.3);
+  outline: none;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Profile Box (Now with Tech-Style Light Blue Background) */
+.profile-name-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.profile-name-input:focus {
+  border-color: #64B5F6;
+  box-shadow: 0px 0px 12px rgba(100, 181, 246, 0.8);
+}
+
+/* Clickable Container */
+.clickable-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+}
+
+/* Available Fields and Profile Box */
+.available-fields,
 .profile-box {
-  width: 50%;
-  background: rgba(100, 181, 246, 0.2);
+  width: 40%;
+  min-width: 320px;
+  background: rgba(25, 25, 50, 0.9);
   padding: 20px;
   border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(100, 181, 246, 0.3);
   backdrop-filter: blur(10px);
-  border: 2px solid #64B5F6;
-  box-shadow: 0px 4px 10px rgba(100, 181, 246, 0.4);
 }
 
-/* Draggable Items */
-.draggable-item {
-  padding: 10px;
-  margin: 5px;
-  border-radius: 8px;
-  text-align: center;
+/* Clickable Buttons */
+.field-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.clickable-button {
+  background: linear-gradient(135deg, #1565C0, #1E88E5);
+  border: 1px solid rgba(100, 181, 246, 0.4);
+  color: white;
+  font-size: 1rem;
   font-weight: bold;
-  cursor: grab;
-  transition: transform 0.2s;
+  padding: 12px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  min-width: 120px;
+  text-align: center;
 }
 
-.draggable-item:hover {
+.clickable-button:hover {
+  background: linear-gradient(135deg, #1E88E5, #42A5F5);
   transform: scale(1.05);
+  box-shadow: 0px 4px 10px rgba(100, 181, 246, 0.6);
 }
 
-.supertype {
-  background-color: #1565C0;
-  color: white;
+/* Profile Box */
+.profile-box {
+  background: rgba(100, 181, 246, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid rgba(100, 181, 246, 0.4);
+  box-shadow: 0px 4px 10px rgba(100, 181, 246, 0.3);
+  backdrop-filter: blur(12px);
+  text-align: center;
 }
 
-.subtype {
-  background-color: #1E88E5;
-  color: white;
+.profile-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #64B5F6;
+  text-shadow: 0px 0px 8px rgba(100, 181, 246, 0.5);
 }
 
 /* Profile Fields */
-.profile-title {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #64B5F6;
-}
-
-.drop-placeholder {
-  text-align: center;
-  opacity: 0.6;
+.profile-field-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .profile-field {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 10px;
-  background: #64B5F6;
+  background: linear-gradient(135deg, #1E88E5, #64B5F6);
+  padding: 8px 15px;
   border-radius: 6px;
-  margin: 5px 0;
+  color: white;
   font-weight: bold;
-  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 3px 5px rgba(100, 181, 246, 0.3);
 }
 
+.profile-field:hover {
+  transform: scale(1.05);
+}
+
+/* Delete Button */
 .delete-btn {
   background: none;
   border: none;
   color: white;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.delete-btn:hover {
+  color: red;
 }
 
 /* Save Profile Button */
 .save-button {
-  background-color: #64B5F6;
+  background: linear-gradient(135deg, #FF4081, #E91E63);
   color: white;
   border: none;
   padding: 14px 28px;
   font-size: 1.2rem;
-  border-radius: 30px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
   display: block;
   margin: 20px auto;
-  box-shadow: 0px 4px 8px rgba(100, 181, 246, 0.5);
+  box-shadow: 0px 4px 8px rgba(255, 64, 129, 0.5);
 }
 
 .save-button:hover {
-  background-color: #42A5F5;
-  transform: scale(1.05);
+  background: linear-gradient(135deg, #F06292, #D81B60);
+  transform: scale(1.07);
+  box-shadow: 0px 4px 10px rgba(255, 64, 129, 0.7);
 }

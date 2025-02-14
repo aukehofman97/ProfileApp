@@ -1,124 +1,109 @@
-import React, { useState } from 'react';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import React, { useState, useEffect } from 'react';
 import { Particles } from "@tsparticles/react";
-import axios from 'axios';
+import * as rdf from 'rdflib';
 import './App.css';
 
-const concepts = {
-  Container: ["equipmentTypeCode", "containerNumber", "containerSize", "containerType"],
-  Goods: ["goodsTypeCode", "typeOfCargo", "natureOfCargo", "PackageTypeNumericCode"],
-  Vessel: ["vesselName", "transportMeansMode", "vesselType"],
-  Truck: ["hasVIN", "truckLicensePlate", "transportMeansMode"],
-  Wagon: ["wagonBrakeType", "wagonMaximumSpeed", "wagonNrAxel"],
-};
+// Paths to the TTL files
+const DIGITALTWIN_TTL = process.env.PUBLIC_URL + "/data/DigitalTwin.ttl";
+const EVENT_TTL = process.env.PUBLIC_URL + "/data/Event.ttl";
 
-const DraggableItem = ({ name, type, concept, toggleExpand, expanded }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "FIELD",
-    item: { name, type, concept },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
-
+const ClickableItem = ({ name, addToProfile }) => {
   return (
-    <div ref={drag} className={`draggable-item ${type === "supertype" ? "supertype" : "subtype"}`} onClick={() => type === "supertype" && toggleExpand(concept)}>
+    <button className="clickable-button" onClick={() => addToProfile(name)}>
       {name}
-      {type === "supertype" && (
-        <span className="expand-icon">{expanded ? "🔽" : "▶"}</span>
-      )}
-    </div>
+    </button>
   );
 };
 
-const DropArea = ({ fields, setFields }) => {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "FIELD",
-    drop: (item) => {
-      setFields((prev) => {
-        const updatedFields = { ...prev };
-        if (item.type === "supertype") {
-          updatedFields[item.name] = concepts[item.name].map((prop) => ({
-            name: prop,
-            type: "subtype",
-          }));
-        } else {
-          if (!updatedFields[item.concept]) {
-            updatedFields[item.concept] = [];
-          }
-          updatedFields[item.concept].push({ name: item.name, type: "subtype" });
-        }
-        return updatedFields;
-      });
-    },
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  }));
-
-  const removeItem = (concept, itemName) => {
-    setFields((prev) => {
-      const updatedFields = { ...prev };
-      updatedFields[concept] = updatedFields[concept].filter((item) => item.name !== itemName);
-      if (updatedFields[concept].length === 0) {
-        delete updatedFields[concept];
-      }
-      return updatedFields;
-    });
-  };
-
+const ProfileArea = ({ fields, removeItem }) => {
   return (
-    <div ref={drop} className="profile-box">
+    <div className="profile-box">
       <h3 className="profile-title">Profile</h3>
-      {Object.keys(fields).length === 0 ? (
-        <p className="drop-placeholder">Drag fields here...</p>
+      {fields.length === 0 ? (
+        <p className="drop-placeholder">Click fields to add them...</p>
       ) : (
-        Object.keys(fields).map((concept) => (
-          <div key={concept} className="concept-group">
-            <h4 className="concept-title">{concept}</h4>
-            <div className="field-list">
-              {fields[concept].map((field, index) => (
-                <div key={index} className="profile-field">
-                  {field.name}
-                  <button className="delete-btn" onClick={() => removeItem(concept, field.name)}>
-                    ➖
-                  </button>
-                </div>
-              ))}
+        <div className="profile-field-container">
+          {fields.map((field, index) => (
+            <div key={index} className="profile-field">
+              {field}
+              <button className="delete-btn" onClick={() => removeItem(field)}>✖</button>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   );
 };
 
 const App = () => {
-  const [fields, setFields] = useState({});
-  const [expandedConcepts, setExpandedConcepts] = useState({});
+  const [fields, setFields] = useState([]);
+  const [availableFields, setAvailableFields] = useState([]);
+  const [profileName, setProfileName] = useState("");
   const [showProfileBuilder, setShowProfileBuilder] = useState(false);
+  const [savedProfiles, setSavedProfiles] = useState(
+    JSON.parse(localStorage.getItem("profiles")) || []
+  );
 
-  const toggleExpand = (concept) => {
-    setExpandedConcepts((prev) => ({
-      ...prev,
-      [concept]: !prev[concept],
-    }));
-  };
+  useEffect(() => {
+    const loadTTLFiles = async () => {
+      try {
+        const digitalTwinData = await fetch(DIGITALTWIN_TTL).then(res => res.text());
+        const eventData = await fetch(EVENT_TTL).then(res => res.text());
+
+        const classes = extractOwlClasses(digitalTwinData).concat(extractOwlClasses(eventData));
+
+        setAvailableFields(classes);
+      } catch (error) {
+        console.error("Error loading TTL files:", error);
+      }
+    };
+
+    loadTTLFiles();
+  }, []);
+
+  const extractOwlClasses = (ttlData) => {
+    const store = rdf.graph();
+    rdf.parse(ttlData, store, "http://example.com#", "text/turtle");
+
+    const owlClass = rdf.sym("http://www.w3.org/2002/07/owl#Class");
+    return store
+        .statementsMatching(null, rdf.sym("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), owlClass)
+        .map(stmt => stmt.subject.value.split("#").pop()); // Extract class names
+};
 
   const handleStartClick = () => {
     setShowProfileBuilder(true);
-    setTimeout(() => {
-      const element = document.getElementById('profile-builder');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
+  };
+
+  const addToProfile = (field) => {
+    if (!fields.includes(field)) {
+      setFields([...fields, field]);
+    }
+  };
+
+  const removeItem = (field) => {
+    setFields(fields.filter((f) => f !== field));
+  };
+
+  const saveProfile = () => {
+    if (profileName.trim() === "") {
+      alert("Please enter a profile name before saving.");
+      return;
+    }
+
+    const newProfile = { name: profileName, fields };
+    const updatedProfiles = [...savedProfiles, newProfile];
+
+    setSavedProfiles(updatedProfiles);
+    localStorage.setItem("profiles", JSON.stringify(updatedProfiles));
+
+    alert("Profile saved successfully!");
+    setFields([]);
+    setProfileName("");
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      {/* Background Particles */}
+    <>
       <Particles
         id="particles-js"
         options={{
@@ -127,26 +112,10 @@ const App = () => {
             number: { value: 80 },
             color: { value: "#64B5F6" },
             shape: { type: "circle" },
-            opacity: {
-              value: 0.7,
-              animation: {
-                enable: true,
-                speed: 0.5,
-                minimumValue: 0.3,
-                sync: false
-              }
-            },
+            opacity: { value: 0.7 },
             size: { value: 2 },
-            move: {
-              enable: true,
-              speed: 1,
-            },
-            links: {
-              enable: true,
-              distance: 130,
-              color: "#64B5F6",
-              opacity: 0.6,
-            },
+            move: { enable: true, speed: 1 },
+            links: { enable: true, distance: 130, color: "#64B5F6", opacity: 0.6 },
           },
         }}
       />
@@ -155,44 +124,46 @@ const App = () => {
         <header className="app-header">
           <h1 className="app-title">Interoperability Agent</h1>
         </header>
+
         <main>
-          <section className="landing-section">
-            <h2 className="landing-title">Create Your Profile Now</h2>
-            <button className="start-button" onClick={handleStartClick}>
-              Start
-            </button>
-          </section>
-          {showProfileBuilder && (
-            <section id="profile-builder" className="profile-builder-section">
-              <div className="drag-drop-container">
+          {!showProfileBuilder ? (
+            <section className="landing-section">
+              <h2 className="landing-title">Create Your Profile Now</h2>
+              <button className="start-button" onClick={handleStartClick}>
+                Start
+              </button>
+            </section>
+          ) : (
+            <section className="profile-builder-section">
+              <div className="profile-name-container">
+                <input
+                  type="text"
+                  className="profile-name-input"
+                  placeholder="Enter profile name..."
+                  value={profileName}
+                  onChange={(e) => setProfileName(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="clickable-container">
                 <div className="available-fields">
                   <h3>Available Fields</h3>
-                  {Object.keys(concepts).map((concept) => (
-                    <div key={concept}>
-                      <DraggableItem
-                        name={concept}
-                        type="supertype"
-                        concept={concept}
-                        toggleExpand={toggleExpand}
-                        expanded={expandedConcepts[concept]}
-                      />
-                      {expandedConcepts[concept] &&
-                        concepts[concept].map((prop, idx) => (
-                          <DraggableItem key={idx} name={prop} type="subtype" concept={concept} />
-                        ))}
-                    </div>
-                  ))}
+                  <div className="field-buttons">
+                    {availableFields.map((concept, index) => (
+                      <ClickableItem key={index} name={concept} addToProfile={addToProfile} />
+                    ))}
+                  </div>
                 </div>
-                <DropArea fields={fields} setFields={setFields} />
+                <ProfileArea fields={fields} removeItem={removeItem} />
               </div>
-              <button className="save-button">
-                Save Profile
-              </button>
+
+              <button className="save-button" onClick={saveProfile}>Save Profile</button>
             </section>
           )}
         </main>
       </div>
-    </DndProvider>
+    </>
   );
 };
 

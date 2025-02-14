@@ -1,0 +1,841 @@
+# baseURI: https://ontology.tno.nl/logistics/federated/DigitalTwin
+# prefix: DigitalTwin
+
+@prefix : <https://ontology.tno.nl/logistics/federated/DigitalTwin#> .
+@prefix classifications: <https://ontology.tno.nl/logistics/federated/Classifications#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+classifications:PackageTypeNumericCode
+  a owl:DatatypeProperty ;
+.
+classifications:packageCode
+  a owl:DatatypeProperty ;
+.
+classifications:packageTypeName
+  a owl:DatatypeProperty ;
+.
+<https://ontology.tno.nl/logistics/federated/DigitalTwin>
+  a owl:Ontology ;
+  dc:creator "Dena Tahvildari, Cornelis Bouter, Maaike Burghoorn" ;
+  dcterms:created "2020-07-17" ;
+  dcterms:description "This is DigitalTwin ontology. It contains classes, attributes and relationships about logistics physical real world object. The usecase is two: 1. it is part of federated logistics ontology architecture that is referenced and used by Event module. 2. It will be evolved (extended) to cover digital Twin technologies requirements. " ;
+  dcterms:isRequiredBy "<https://ontology.tno.nl/logistics/federated/Event>" ;
+  dcterms:issued "2021-03-15" ;
+  dcterms:language "en" ;
+  dcterms:requiredBy <https://ontology.tno.nl/logistics/federated/Event> ;
+  dcterms:requires <https://ontology.tno.nl/logistics/federated/Classifications> ;
+  owl:versionIRI <https://ontology.tno.nl/logistics/federated/DigitalTwinv-0.1> ;
+.
+:UUID
+  a rdf:Property ;
+  rdfs:comment "" ;
+  rdfs:label "UUID" ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:range xsd:string ;
+  skos:altLabel "IMO0140"
+.
+:externalIdentifier
+  a rdf:Property ;
+  rdfs:comment "" ;
+  rdfs:label "Additional Reference code" ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:range xsd:string
+.
+:name
+  a rdf:Property ;
+  rdfs:comment "" ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:range xsd:string
+.
+:country
+  a rdf:Property ;
+  rdfs:comment "" ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:range xsd:string
+.
+:Airplane
+  a owl:Class ;
+  rdfs:comment "Transport means by air." ;
+  rdfs:label "Airplane" ;
+  rdfs:subClassOf :TransportMeans ;
+.
+:Barge
+  a owl:Class ;
+  rdfs:comment "Vessel used for transporting cargo on inland waterways." ;
+  rdfs:label "Barge" ;
+  rdfs:subClassOf :Vessel ;
+.
+:BulkFeeder
+  a owl:Class ;
+  rdfs:comment "are common devices used to feed individual component parts for assembly on industrial production lines." ;
+  rdfs:label "Bulk Feeder" ;
+  rdfs:subClassOf :Feeder ;
+.
+:BulkProduct
+  a owl:Class ;
+  rdfs:comment "Any unpackaged raw material" ;
+  rdfs:label "Bulk Product" ;
+  rdfs:subClassOf :Product ;
+.
+:CommercialProduct
+  a owl:Class ;
+  rdfs:comment "Any product destined for use by enterprise. Consumer products may be packaged in quantities." ;
+  rdfs:label "Commercial Product" ;
+  rdfs:subClassOf :Product ;
+.
+:ConsumerProduct
+  a owl:Class ;
+  rdfs:comment "Any product destined for consumption or use by consumers. Consumer products might be packaged in quantities." ;
+  rdfs:label "Consumer Product" ;
+  rdfs:subClassOf :Product ;
+.
+:Container
+  a owl:Class ;
+  rdfs:comment "Transport containers serve to containerize products." ;
+  rdfs:label "Container" ;
+  rdfs:subClassOf :Equipment ;
+.
+:ContainerFeeder
+  a owl:Class ;
+  rdfs:label "Container Feeder" ;
+  rdfs:subClassOf :Feeder ;
+.
+:DanishContainer
+  a owl:Class ;
+  rdfs:comment "A Danish container for the transportation of e.g. flowers." ;
+  rdfs:label "Danish Container" ;
+  rdfs:subClassOf :Container ;
+.
+:DeepSeaBulkVessel
+  a owl:Class ;
+  rdfs:label "Deep Sea Bulk Vessel" ;
+  rdfs:subClassOf :Vessel ;
+.
+:DeepSeaContainerVessel
+  a owl:Class ;
+  rdfs:label "Deep Sea Container Vessel" ;
+  rdfs:subClassOf :Vessel ;
+.
+:DeepSeaVessel
+  a owl:Class ;
+  rdfs:comment "Used for ocean transport." ;
+  rdfs:label "Deep Sea Vessel" ;
+  rdfs:subClassOf :Vessel ;
+.
+:Document
+  a owl:Class ;
+  rdfs:comment "A legal document in event and business transactions." ;
+  rdfs:label "Document" ;
+  rdfs:subClassOf :PhysicalObject ;
+.
+:Equipment
+  a owl:Class ;
+  rdfs:comment "Any asset used to facilitate transport and handling of cargo." ;
+  rdfs:label "Transport Equipment" ;
+  rdfs:subClassOf :PhysicalObject ;
+.
+:Feeder
+  a owl:Class ;
+  rdfs:comment "Used for short range transport  via sea." ;
+  rdfs:label "Feeder" ;
+  rdfs:subClassOf :Vessel ;
+.
+:Ferry
+  a owl:Class ;
+  rdfs:comment "Used for transport of other transport means like trucks and/or trailers." ;
+  rdfs:label "Ferry" ;
+  rdfs:subClassOf :Vessel ;
+.
+:Goods
+  a owl:Class ;
+  rdfs:comment "Defintions is needed" ;
+  rdfs:subClassOf :PhysicalObject ;
+.
+:Hold
+  a owl:Class ;
+  rdfs:comment "A hold containing goods that is pushed forward by a ship to form a push barge." ;
+  rdfs:label "Hold" ;
+  rdfs:subClassOf :Equipment ;
+.
+:Locomotive
+  a owl:Class ;
+  rdfs:comment "Any traction for a train composed of one or more wagons." ;
+  rdfs:label "Locomotive" ;
+  rdfs:subClassOf :Train ;
+.
+:Package
+  a owl:Class ;
+  rdfs:label "Package" ;
+  rdfs:subClassOf :PhysicalObject ;
+.
+:Pallets
+  a owl:Class ;
+  rdfs:comment "A pallet is a flat transport structure, which supports goods in a stable fashion while being lifted by a forklift, a pallet jack, a front loader, a jacking device, or an erect crane. A pallet is the structural foundation of a unit load which allows handling and storage efficiencies." ;
+  rdfs:label "Pallets" ;
+  rdfs:subClassOf :RTI ;
+.
+:PartProduct
+  a owl:Class ;
+  rdfs:comment "Products destined for use in machines owned by consumers or enterprises" ;
+  rdfs:label "Part Product" ;
+  rdfs:subClassOf :Product ;
+.
+:PhysicalObject
+  a owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
+:PhysicalObjectProperties
+  a owl:DatatypeProperty ;
+  rdfs:comment "Do not Instantiate -- this is only for grouping." ;
+  rdfs:label "Physical Object Properties" ;
+.
+:Product
+  a owl:Class ;
+  rdfs:comment "The actual objects that change ownership between a seller to a buyer. Any commercial goods that is bought and sold." ;
+  rdfs:label "Product" ;
+  rdfs:subClassOf :PhysicalObject ;
+.
+:PushBarge
+  a owl:Class ;
+  rdfs:comment "A vessel without its own drive, used for the transport of a solid, bulk or liquid (tank barge) cargo. The boat is pushed on the back. The barges are used for the transport of bulk cargo of cereals, sand, gravel, coal, ore, etc." ;
+  rdfs:label "Push Barge" ;
+  rdfs:subClassOf :Equipment ;
+.
+:RTI
+  a owl:Class ;
+  rdfs:label "RTI" ;
+  rdfs:subClassOf :Equipment ;
+.
+:RailwayWagon
+  a owl:Class ;
+  rdfs:comment "Unpowered railway vehicles that are used for the transportation of cargo." ;
+  rdfs:label "Railway Wagon" ;
+  rdfs:subClassOf :Equipment ;
+.
+:SeaContainer
+  a owl:Class ;
+  rdfs:comment "A regular sea container." ;
+  rdfs:label "Sea-Container" ;
+  rdfs:subClassOf :Container ;
+.
+:Seal
+  a owl:Class ;
+  rdfs:comment "Type of Transport Equipment" ;
+  rdfs:label "Seal" ;
+  rdfs:subClassOf :Equipment ;
+.
+:Swapbody
+  a owl:Class ;
+  rdfs:label "Swap Body" ;
+  rdfs:subClassOf :Equipment ;
+.
+:Trailer
+  a owl:Class ;
+  rdfs:comment "Unpowered road vehicles that are used for the transportation of cargo." ;
+  rdfs:label "Trailer" ;
+  rdfs:subClassOf :Equipment ;
+.
+:Train
+  a owl:Class ;
+  rdfs:label "Train" ;
+  rdfs:subClassOf :TransportMeans ;
+.
+:TransportMeans
+  a owl:Class ;
+  rdfs:comment """These are the vehicles that transport the cargo, such as tricks, vessels,
+trains, airplanes, barges etc.""" ;
+  rdfs:label "Transport Means" ;
+  rdfs:subClassOf :PhysicalObject ;
+.
+:Truck
+  a owl:Class ;
+  rdfs:comment "A truck or lorry is a motor vehicle designed to transport cargo. Trucks vary greatly in size, power, and configuration." ;
+  rdfs:label "Truck" ;
+  rdfs:subClassOf :TransportMeans ;
+.
+:ULD
+  a owl:Class ;
+  rdfs:comment "Unit Load Devices are light weight containers for air transport and facilitate loading cargo into aircraft." ;
+  rdfs:label "Unit Load Devices" ;
+  rdfs:subClassOf :Container ;
+.
+:Vessel
+  a owl:Class ;
+  rdfs:comment "Any transport means used for transporting cargo by sea/ocean. Watercraft, also known as water vessels or waterborne vessels, are vehicles used in water, including boats, ships, hovercraft and submarines. Watercraft usually have a propulsive capability (whether by sail, oar, paddle or engine) and hence are distinct from a simple device that merely floats, such as a log raft." ;
+  rdfs:label "Vessel" ;
+  rdfs:subClassOf :TransportMeans ;
+.
+# ------------ PROPERTIES ------------ 
+
+:aircraftNumber
+  a owl:DatatypeProperty ;
+  rdfs:comment "" ;
+  rdfs:label "Aircraft number" ;
+  rdfs:domain :Airplane ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :transportMeansPropertiesExternalIdentification
+.
+:bulkVolume
+  a owl:DatatypeProperty ;
+  rdfs:comment "the measure of volume expressed in m3" ;
+  rdfs:label "Bulk Volume" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:Cargo 
+  a owl:Class ;
+  rdfs:comment "Generic cargo object, may be transport equipment, goods or product" ;
+  rdfs:label "Cargo";
+  rdfs:subClassOf :PhysicalObject
+.
+:cargoMaxSize
+  a owl:DatatypeProperty ;
+  rdfs:domain :Cargo ;
+  rdfs:label "Cargo Maximum Size" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:cargoMaximumTemperature
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:label "Cargo Maximum Temperature" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:cargoMaximumVolume
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:label "Cargo Maximum Volume" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:cargoMinimumSize
+  a owl:DatatypeProperty ;
+  rdfs:label "Cargo Minimum Size" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:cargoMinimumTemperature
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:label "Cargo Minimum Temperature" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:cargoMinimumVolume
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:label "Cargo Minimum Volume" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:cargoTemperature
+  a owl:DatatypeProperty ;
+  rdfs:label "Cargo Temperature" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:classifications_detail
+  a owl:ObjectProperty ;
+  rdfs:comment "this object property links the any type of digital twin to the needed classification type and its controlled vocabularies" ;
+  rdfs:range classifications:Classifications ;
+.
+:connectedToSealingParty
+  a owl:ObjectProperty ;
+  rdfs:comment "This property relates the seal with the sealing party involved (instantiated as legal person)." ;
+  rdfs:domain :Seal ;
+  rdfs:label "connected to sealing party" ;
+  rdfs:range <https://ontology.tno.nl/logistics/federated/LegalPerson#LegalPerson> ;
+.
+:containerNumber
+  a owl:DatatypeProperty ;
+  rdfs:comment "Container number" ;
+  rdfs:domain :Container ;
+  rdfs:label "Container Number" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:containerSize
+  a owl:DatatypeProperty ;
+  rdfs:label "Cargo Container Size" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:containerType
+  a owl:ObjectProperty ;
+  rdfs:domain :Container ;
+  rdfs:label "Container Type" ;
+  rdfs:range xsd:string ;
+.
+:damageRemarks
+  a owl:DatatypeProperty ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:label "Damage Remarks" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:dangerousGoodsRegulationCode
+  a owl:DatatypeProperty ;
+  rdfs:comment "Dangerous goods require a dangerous goods regulation code. The code consists of 3 characters." ;
+  rdfs:domain :Goods ;
+  rdfs:label "Dangerous Goods Regulation Code" ;
+  rdfs:range xsd:string ;
+.
+:documentID
+  a owl:DatatypeProperty ;
+  rdfs:domain :Document ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:documentVersion
+  a owl:DatatypeProperty ;
+  rdfs:domain :Document ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:dryBulk
+  a owl:DatatypeProperty ;
+  rdfs:label "Dry Bulk" ;
+  rdfs:range xsd:boolean ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:ems_id
+  a owl:DatatypeProperty ;
+  rdfs:comment "The Emergency Medical Services ID." ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:label "EMS ID" ;
+  rdfs:range xsd:string ;
+  rdfs:seeAlso <https://svn.gefeg.com/svn/efti-publication/HTML/041.htm?https://svn.gefeg.com/svn/efti-publication/HTML/0476.htm> ;
+.
+:equipmentCategoryCode
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:label "Equipment Container Type" ;
+  rdfs:subPropertyOf :equipmentProperties ;
+.
+:equipmentContainerITUCode
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:label "Equipment Container ITU Code" ;
+  rdfs:subPropertyOf :equipmentProperties ;
+.
+:equipmentProperties
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:equipmentSize
+  a owl:DatatypeProperty ;
+  rdfs:label "Equipment Container Size" ;
+  rdfs:subPropertyOf :equipmentProperties ;
+.
+:equipmentTypeCode
+  a owl:ObjectProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:label "Equipment Type Code" ;
+  rdfs:range xsd:string ;
+.
+:goodsDescription
+  a owl:DatatypeProperty ;
+  rdfs:domain :Goods ;
+  rdfs:label "Goods Description" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:goodsTypeCode
+  a owl:ObjectProperty ;
+  rdfs:domain :Goods ;
+  rdfs:label "Goods Type Code" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :classifications_detail ;
+.
+:grossWeight
+  a owl:DatatypeProperty ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:label "Gross Weight" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:harmonizedSystemCode
+  a owl:DatatypeProperty ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:label "Harmonized System Code" ;
+  rdfs:comment "Standardized code to categorize products, used by customs authorities" ;
+  rdfs:range xsd:string ;
+.
+:hasDangerousGoodsRegulationCode
+  a owl:ObjectProperty ;
+  rdfs:comment "Dangerous goods require a dangerous goods regulation code." ;
+  rdfs:domain :Goods;
+  rdfs:label "Dangerous Goods Regulation Code" ;
+  rdfs:range classifications:DangerousGoodsRegulationCode ;
+.
+                                                                                                                                                                                                          
+:UNDGCode
+  a owl:DatatypeProperty ;
+  rdfs:comment "Goods can be assigned a UNDG code to identify the hazardous nature of the goods." ;
+  rdfs:domain :Goods ;
+  rdfs:label "UNDG code" ;
+  rdfs:range xsd:string ;
+.
+:hasDocumentType
+  a owl:ObjectProperty ;
+  rdfs:domain :Document ;
+  rdfs:label "has Documnet Type" ;
+  rdfs:range classifications:DocumentType ;
+.
+:hasFlashpointTemperature
+  a owl:DatatypeProperty ;
+  rdfs:comment "This property relates a physical object with its flashpoint temperature given as a measure from Unit of Measure (OUM) ontology" ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:label "Flashpoint temperature" ;
+  rdfs:range xsd:string
+.
+:hasMRN_Number
+  a owl:DatatypeProperty ;
+  rdfs:label "MRN Number" ;
+  rdfs:range xsd:string ;
+.
+:hasNumberOfCollies
+  a owl:DatatypeProperty ;
+  rdfs:label "Number of Collies" ;
+  rdfs:range xsd:integer ;
+.
+:hasSealConditionCode
+  a owl:ObjectProperty ;
+  rdfs:comment "A code specifying a condition of this logistics seal." ;
+  rdfs:domain :Seal ;
+  rdfs:label "Has Seal Condition Code" ;
+  rdfs:range classifications:SealConditionCode ;
+  rdfs:subPropertyOf :classifications_detail ;
+.
+:transportMeansMode
+  a owl:DatatypeProperty ;
+  rdfs:comment "A code specifying the transport means mode." ;
+  rdfs:domain :TransportMeans ;
+  rdfs:label "Transport Means Mode" ;
+  rdfs:range xsd:string ;
+  skos:altLabel "IMO0160"
+.
+:hasTransportmeansNationality
+  a owl:DatatypeProperty ;
+  rdfs:domain :TransportMeans ;
+  rdfs:label "Transport Means Nationality" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :transportMeansProperties ;
+.
+:VIN
+  a owl:DatatypeProperty ;
+  rdfs:domain :Truck ;
+  rdfs:label "VIN" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :transportMeansPropertiesExternalIdentification ;
+.
+:hazardousMaterialDetail
+  a owl:ObjectProperty ;
+  rdfs:range classifications:DangerousGoodsRegulationCode ;
+  rdfs:subPropertyOf :classifications_detail ;
+.
+:isEmpty
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:label "Is Empty" ;
+  rdfs:range xsd:boolean ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:isFull
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:label "Is Full" ;
+  rdfs:range xsd:boolean ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:loadCapacity
+  a owl:DatatypeProperty ;
+  rdfs:domain :Hold ;
+  rdfs:label "Load Capacity" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:locatedAt
+  a owl:ObjectProperty ;
+  rdfs:comment "An optional stationary location for a physical object." ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:label "Located At" ;
+  rdfs:range <https://ontology.tno.nl/logistics/federated/PhysicalInfrastructure#Location> ;
+.
+:locomotiveBrakeType
+  a owl:DatatypeProperty ;
+  rdfs:domain :Locomotive ;
+  rdfs:label "Locomotive Brake Type" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :transportMeansProperties ;
+.
+:locomotiveBrakeWeight
+  a owl:DatatypeProperty ;
+  rdfs:domain :Locomotive ;
+  rdfs:label "Locomotive Brake Weight" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :transportMeansProperties ;
+.
+:locomotiveDriverIndication
+  a owl:DatatypeProperty ;
+  rdfs:domain :Locomotive ;
+  rdfs:label "Locomotive Driver Indication" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :transportMeansProperties ;
+.
+:locomotiveTractionType
+  a owl:DatatypeProperty ;
+  rdfs:domain :Locomotive ;
+  rdfs:label "Locomotive Traction Type" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :transportMeansProperties ;
+.
+:locomotiveTypeNumber
+  a owl:DatatypeProperty ;
+  rdfs:domain :Locomotive ;
+  rdfs:label "Locomotive Type Number" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :transportMeansProperties ;
+.
+:natureOfCargo
+  a owl:ObjectProperty ;
+  rdfs:label "Nature of Cargo" ;
+  rdfs:domain :Cargo ;
+  rdfs:range classifications:NatureOfCargo ;
+  rdfs:subPropertyOf :classifications_detail ;
+.
+:netLoad
+  a owl:DatatypeProperty ;
+  rdfs:label "Net Load" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:netMass
+  a owl:DatatypeProperty ;
+  rdfs:label "Net Mass" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:numberOfTEU
+  a owl:DatatypeProperty ;
+  rdfs:label "Number of TEU" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:numberofPackages
+  a owl:DatatypeProperty ;
+  rdfs:domain :Package ;
+  rdfs:label "Number of Packages" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :packageProperties ;
+.
+:packageCode
+  a owl:DatatypeProperty ;
+  rdfs:comment "Package code based on Unece Standardisations." ;
+  rdfs:domain :Package ;
+  rdfs:label "Package Code" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :packageProperties ;
+.
+:packageLevelType
+  a owl:DatatypeProperty ;
+  rdfs:domain :Package ;
+  rdfs:label "Package Level Type" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :packageProperties ;
+.
+:packageProperties
+  a owl:DatatypeProperty ;
+  rdfs:comment "Do not Instantiate -- Made only for grouping" ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:packageTypeName
+  a owl:DatatypeProperty ;
+  rdfs:comment "Package type name based on UNECE standardisations. Retrieved from internal project ProfileData postgres database." ;
+  rdfs:domain :Package ;
+  rdfs:label "Package Type Name" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :packageProperties ;
+.
+:packageTypeNumericCode
+  a owl:DatatypeProperty ;
+  rdfs:comment "Two digit numeric code for expressing types of package." ;
+  rdfs:domain :Package ;
+  rdfs:label "Package Type Numeric Code" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :packageProperties ;
+.
+:packagingDangerLevelCode
+  a owl:DatatypeProperty ;
+  rdfs:comment "The packaging danger level code." ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:label "Packaging danger level code" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:productName
+  a owl:DatatypeProperty ;
+  rdfs:comment "Name of the product related to the code" ;
+  rdfs:domain :Product ;
+  rdfs:label "Product Name" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :productProperties ;
+.
+:productProperties
+  a owl:DatatypeProperty ;
+  rdfs:comment "Do not Instantiate -- for grouping Only" ;
+  rdfs:domain :Product ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:properShippingName
+  a owl:DatatypeProperty ;
+  rdfs:comment "Proper shipping name" ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:label "Proper Shipping Name" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:relatedSealingPartyRoleCode
+  a owl:ObjectProperty ;
+  rdfs:comment "This property relates the seal to the role code of the seal party" ;
+  rdfs:domain :Seal ;
+  rdfs:label "Related Sealing Party Role Code" ;
+  rdfs:range classifications:SealingPartyRoleCode ;
+  rdfs:subPropertyOf :classifications_detail ;
+.
+:sealIndicator
+  a owl:DatatypeProperty ;
+  rdfs:comment "The indication of whether or not this piece of logistics transport equipment is sealed." ;
+  rdfs:domain :Seal ;
+  rdfs:label "Seal Indicator" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :sealProperties ;
+.
+:sealProperties
+  a owl:DatatypeProperty ;
+  rdfs:comment "Super Property to group properties of Seal. DO NO INSTANTIATE." ;
+  rdfs:domain :Seal ;
+  rdfs:label "Seal Properties" ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:sealQuantity
+  a owl:DatatypeProperty ;
+  rdfs:domain :Seal ;
+  rdfs:label "Seal Quantity" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :sealProperties ;
+.
+:shippingMarks
+  a owl:DatatypeProperty ;
+  rdfs:label "Shipping Marks" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:size
+  a owl:DatatypeProperty ;
+  rdfs:label "Size" ;
+  rdfs:domain :PhysicalObject ;
+  rdfs:range xsd:string
+.
+:tareWeight
+  a owl:DatatypeProperty ;
+  rdfs:domain :Equipment ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :equipmentProperties ;
+.
+:totalLoadCapacity
+  a owl:DatatypeProperty ;
+  rdfs:domain [
+      a owl:Class ;
+      owl:unionOf (
+          :Barge
+          :PushBarge
+        ) ;
+    ] ;
+  rdfs:label "Total Load Capacity" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :PhysicalObjectProperties ;
+.
+:trailerLicensePlate
+  a owl:DatatypeProperty ;
+  rdfs:domain :Trailer ;
+  rdfs:label "Equipment Trailer License Plate" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :equipmentProperties ;
+.
+:transportMeansProperties
+  a owl:DatatypeProperty ;
+  rdfs:domain :TransportMeans ;
+  rdfs:comment "Used for grouping -- do not instantiate" ;
+  rdfs:label "Transport Means Properties" .
+
+:transportMeansPropertiesExternalIdentification
+  a owl:DatatypeProperty ;
+  rdfs:domain :TransportMeans ;
+  rdfs:comment "Used for grouping external identification methods of a transport means" ;
+  rdfs:label "Transport Means Properties" .
+
+:truckLicensePlate
+  a owl:DatatypeProperty ;
+  rdfs:domain :Truck ;
+  rdfs:label "Truck License Plate" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :transportMeansPropertiesExternalIdentification
+.
+:typeOfCargo
+  a owl:ObjectProperty ;
+  rdfs:label "Type of Cargo" ;
+  rdfs:range classifications:CargoType ;
+  rdfs:domain :Cargo ;
+  rdfs:subPropertyOf :classifications_detail ;
+.
+:vesselType
+  a owl:DatatypeProperty ;
+  rdfs:domain :Vessel ;
+  rdfs:label "Vessel Type" ;
+  rdfs:range xsd:string ;
+.
+:vesselName
+  a owl:DatatypeProperty ;
+  rdfs:domain :Vessel ;
+  rdfs:label "Vessel Name" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :transportMeansPropertiesExternalIdentification ;
+  skos:altLabel "IMO0142"
+.
+:wagonBrakeType
+  a owl:DatatypeProperty ;
+  rdfs:domain :RailwayWagon ;
+  rdfs:label "Wagon Brake Type" ;
+  rdfs:range xsd:string ;
+  rdfs:subPropertyOf :equipmentProperties ;
+.
+:wagonBrakeWeight
+  a owl:DatatypeProperty ;
+  rdfs:domain :RailwayWagon ;
+  rdfs:label "Wagon Brake Weight" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :equipmentProperties ;
+.
+:wagonMaximumSpeed
+  a owl:DatatypeProperty ;
+  rdfs:domain :RailwayWagon ;
+  rdfs:label "Wagon Maximum Speed" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :equipmentProperties ;
+.
+:wagonNrAxel
+  a owl:DatatypeProperty ;
+  rdfs:domain :RailwayWagon ;
+  rdfs:label "Wagon Nr Axel" ;
+  rdfs:range xsd:integer ;
+  rdfs:subPropertyOf :equipmentProperties ;
+.
