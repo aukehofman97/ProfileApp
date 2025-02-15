@@ -4,17 +4,47 @@
 body {
   margin: 0;
   font-family: 'Exo 2', sans-serif;
-  background: linear-gradient(to bottom, #0D1117, #880E4F); /* Dark pink gradient */
+  background: linear-gradient(to bottom, #350E3E, #FF4081);
   color: #ffffff;
   overflow-x: hidden;
 }
 
-/* Particles Background */
+/* Background Fix - Dynamic Sizing */
 #particles-js {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
   z-index: -1;
+  background-size: cover;
+}
+
+/* Ensuring the main container fills the entire viewport */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sections should take full space to avoid cutoff */
+.landing-section,
+.content-section,
+.profile-builder-section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Prevents content from being cut off on smaller screens */
+@media (max-width: 768px) {
+  .landing-section, .content-section, .profile-builder-section {
+    padding: 15px;
+  }
 }
 
 /* Header */
@@ -271,4 +301,31 @@ body {
   color: #ffffff; /* Adjust color for better visibility */
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+.nav-links {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #FF4081; /* Match pink theme */
+  transition: 0.3s;
+}
+
+.nav-links span:hover {
+  color: #F06292;
+}
+
+.content-section {
+  text-align: center;
+  padding: 40px;
+  color: white;
 }

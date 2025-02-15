@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Particles } from "@tsparticles/react";
+import  Particles  from "@tsparticles/react";
 import * as rdf from 'rdflib';
 import './App.css';
 
-// Paths to the TTL files
 const DIGITALTWIN_TTL = process.env.PUBLIC_URL + "/data/DigitalTwin.ttl";
 const EVENT_TTL = process.env.PUBLIC_URL + "/data/Event.ttl";
 
@@ -36,10 +35,10 @@ const App = () => {
   const [availableFields, setAvailableFields] = useState([]);
   const [classHierarchy, setClassHierarchy] = useState({});
   const [profileName, setProfileName] = useState("");
-  const [showProfileBuilder, setShowProfileBuilder] = useState(false);
   const [downloadLink, setDownloadLink] = useState(null);
   const [downloadFilename, setDownloadFilename] = useState("");
   const [jsonPreview, setJsonPreview] = useState(null);
+  const [page, setPage] = useState("home"); // Navigation state
 
   useEffect(() => {
     const loadTTLFiles = async () => {
@@ -47,10 +46,8 @@ const App = () => {
         const digitalTwinData = await fetch(DIGITALTWIN_TTL).then(res => res.text());
         const eventData = await fetch(EVENT_TTL).then(res => res.text());
 
-        const { classes, hierarchy } = extractClassesAndHierarchy(digitalTwinData + eventData);
-
+        const classes = extractOwlClasses(digitalTwinData + eventData);
         setAvailableFields(classes);
-        setClassHierarchy(hierarchy);
       } catch (error) {
         console.error("❌ Error loading TTL files:", error);
       }
@@ -59,45 +56,21 @@ const App = () => {
     loadTTLFiles();
   }, []);
 
-  const extractClassesAndHierarchy = (ttlData) => {
+  const extractOwlClasses = (ttlData) => {
     const store = rdf.graph();
     rdf.parse(ttlData, store, "http://example.com#", "text/turtle");
 
     const owl = rdf.Namespace("http://www.w3.org/2002/07/owl#");
-    const rdfs = rdf.Namespace("http://www.w3.org/2000/01/rdf-schema#");
-
     let classes = [];
-    let hierarchy = {};
 
     store.statementsMatching(null, rdf.sym("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), owl("Class"))
       .forEach(stmt => {
         const classURI = stmt.subject.value;
         const label = classURI.split("#").pop() || classURI.split("/").pop();
         classes.push({ uri: classURI, label });
-
-        hierarchy[classURI] = { label, subclasses: [] };
       });
 
-    store.statementsMatching(null, rdfs("subClassOf"), null)
-      .forEach(stmt => {
-        const subclassURI = stmt.subject.value;
-        const parentURI = stmt.object.value;
-
-        if (!hierarchy[parentURI]) {
-          hierarchy[parentURI] = { label: parentURI.split("#").pop() || parentURI.split("/").pop(), subclasses: [] };
-        }
-        if (!hierarchy[subclassURI]) {
-          hierarchy[subclassURI] = { label: subclassURI.split("#").pop() || subclassURI.split("/").pop(), subclasses: [] };
-        }
-
-        hierarchy[parentURI].subclasses.push(subclassURI);
-      });
-
-    return { classes, hierarchy };
-  };
-
-  const handleStartClick = () => {
-    setShowProfileBuilder(true);
+    return classes;
   };
 
   const addToProfile = (field) => {
@@ -110,96 +83,95 @@ const App = () => {
     setFields(fields.filter(f => f.uri !== field.uri));
   };
 
-  const generateSubsetTTL = (selectedClasses, ttlData) => {
-    const store = rdf.graph();
-    rdf.parse(ttlData, store, "http://example.com#", "text/turtle");
-
-    let ttlString = "";
-    let jsonOutput = {};
-
-    let processedClasses = new Set();
-
-    selectedClasses.forEach((classObj) => {
-      const classURI = classObj.uri;
-
-      if (!processedClasses.has(classURI)) {
-        processedClasses.add(classURI);
-        ttlString += `<${classURI}> a owl:Class .\n`;
-        jsonOutput[classObj.label] = { type: "Class", properties: {} };
-      }
-
-      const traverseSubclasses = (parentURI) => {
-        if (classHierarchy[parentURI]) {
-          classHierarchy[parentURI].subclasses.forEach(subURI => {
-            if (!processedClasses.has(subURI)) {
-              processedClasses.add(subURI);
-              ttlString += `<${subURI}> a owl:Class ;\n    rdfs:subClassOf <${parentURI}> .\n`;
-              jsonOutput[classHierarchy[subURI].label] = {
-                type: "Class",
-                parent: classHierarchy[parentURI].label,
-                properties: {},
-              };
-              traverseSubclasses(subURI);
-            }
-          });
-        }
-      };
-
-      traverseSubclasses(classURI);
-
-      const relatedProperties = store.statementsMatching(
-        null,
-        rdf.sym("http://www.w3.org/2000/01/rdf-schema#domain"),
-        rdf.sym(classURI)
-      );
-      relatedProperties.forEach(propStmt => {
-        const propName = propStmt.subject.value.split("#").pop() || propStmt.subject.value.split("/").pop();
-        jsonOutput[classObj.label].properties[propName] = "string";
-      });
-    });
-
-    setJsonPreview(jsonOutput);
-    return ttlString;
-  };
-
-  const saveProfile = async () => {
+  const saveProfile = () => {
     if (profileName.trim() === "") {
       alert("Please enter a profile name before saving.");
       return;
     }
 
-    try {
-      const digitalTwinData = await fetch(DIGITALTWIN_TTL).then(res => res.text());
-      const eventData = await fetch(EVENT_TTL).then(res => res.text());
+    const blob = new Blob(["Placeholder TTL content"], { type: "text/turtle" });
+    const url = URL.createObjectURL(blob);
 
-      const profileTTL = generateSubsetTTL(fields, digitalTwinData + eventData);
+    setDownloadLink(url);
+    setDownloadFilename(`${profileName.replace(/\s+/g, "_")}.ttl`);
 
-      const blob = new Blob([profileTTL], { type: "text/turtle" });
-      const url = URL.createObjectURL(blob);
+    // Generate JSON preview
+    const jsonData = {};
+    fields.forEach(field => {
+      jsonData[field.label] = { type: "Class", properties: {} };
+    });
 
-      setDownloadLink(url);
-      setDownloadFilename(`${profileName.replace(/\s+/g, "_")}.ttl`);
-    } catch (error) {
-      console.error("❌ Error saving profile:", error);
-    }
+    setJsonPreview(jsonData);
   };
 
   return (
     <>
-      <Particles id="particles-js" />
+      <Particles
+        id="particles-js"
+        options={{
+          fpsLimit: 60,
+          fullScreen: { enable: true },
+          background: {
+            color: "#281D40",
+          },
+          particles: {
+            number: { value: 80 },
+            color: { value: "#ffffff" },
+            shape: { type: "circle" },
+            opacity: { value: 0.7 },
+            size: { value: 2 },
+            move: { enable: true, speed: 1 },
+            links: { enable: true, distance: 130, color: "#ffffff", opacity: 0.6 },
+          },
+          interactivity: {
+            events: {
+              onHover: {
+                enable: true,
+                mode: "repulse",
+              },
+              onClick: {
+                enable: true,
+                mode: "push",
+              },
+            },
+            modes: {
+              repulse: {
+                distance: 100,
+                duration: 0.4,
+              },
+              push: {
+                quantity: 4,
+              },
+            },
+          },
+        }}
+      />
       <div className="app-container">
         <header className="app-header">
           <h1 className="app-title">Interoperability Agent</h1>
+          <nav className="nav-links">
+            <span onClick={() => setPage("home")}>Home</span>
+            <span onClick={() => setPage("about")}>About</span>
+            <span onClick={() => setPage("service")}>Our Service</span>
+            <span onClick={() => setPage("demo")}>Demo</span>
+          </nav>
         </header>
 
-        {!showProfileBuilder ? (
-          <section className="landing-section">
-            <h2 className="landing-title">Create Your Profile Now</h2>
-            <button className="start-button" onClick={handleStartClick}>
-              Start
-            </button>
+        {page === "about" && (
+          <section className="content-section">
+            <h2>About Us</h2>
+            <p>We are an interoperability-focused platform...</p>
           </section>
-        ) : (
+        )}
+
+        {page === "service" && (
+          <section className="content-section">
+            <h2>Our Service</h2>
+            <p>We provide data-sharing solutions for logistics...</p>
+          </section>
+        )}
+
+        {page === "demo" && (
           <section className="profile-builder-section">
             <input
               type="text"
@@ -227,6 +199,13 @@ const App = () => {
                 <pre>{JSON.stringify(jsonPreview, null, 2)}</pre>
               </div>
             )}
+          </section>
+        )}
+
+        {page === "home" && (
+          <section className="landing-section">
+            <h2 className="landing-title">Welcome to the Interoperability Agent</h2>
+            <p>Navigate to the "Demo" section to start building your profile.</p>
           </section>
         )}
       </div>
