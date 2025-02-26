@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import  Particles  from "@tsparticles/react";
 import * as rdf from 'rdflib';
 import './App.css';
 
@@ -7,16 +6,16 @@ const DIGITALTWIN_TTL = process.env.PUBLIC_URL + "/data/DigitalTwin.ttl";
 const EVENT_TTL = process.env.PUBLIC_URL + "/data/Event.ttl";
 
 const ClickableItem = ({ name, addToProfile }) => (
-  <button className="clickable-button spaced-button" onClick={() => addToProfile(name)}>
+  <button className="clickable-button" onClick={() => addToProfile(name)}>
     {name}
   </button>
 );
 
 const ProfileArea = ({ fields, removeItem }) => (
   <div className="profile-box">
-    <h3 className="profile-title">Profile</h3>
+    <h3 className="profile-title">Selected Classes</h3>
     {fields.length === 0 ? (
-      <p className="drop-placeholder">Click fields to add them...</p>
+      <p className="drop-placeholder">Click on a class to add it...</p>
     ) : (
       <div className="profile-field-container">
         {fields.map((field, index) => (
@@ -33,26 +32,23 @@ const ProfileArea = ({ fields, removeItem }) => (
 const App = () => {
   const [fields, setFields] = useState([]);
   const [availableFields, setAvailableFields] = useState([]);
-  const [classHierarchy, setClassHierarchy] = useState({});
   const [profileName, setProfileName] = useState("");
   const [downloadLink, setDownloadLink] = useState(null);
   const [downloadFilename, setDownloadFilename] = useState("");
   const [jsonPreview, setJsonPreview] = useState(null);
-  const [page, setPage] = useState("home"); // Navigation state
+  const [page, setPage] = useState("home");
 
   useEffect(() => {
     const loadTTLFiles = async () => {
       try {
         const digitalTwinData = await fetch(DIGITALTWIN_TTL).then(res => res.text());
         const eventData = await fetch(EVENT_TTL).then(res => res.text());
-
         const classes = extractOwlClasses(digitalTwinData + eventData);
         setAvailableFields(classes);
       } catch (error) {
         console.error("❌ Error loading TTL files:", error);
       }
     };
-
     loadTTLFiles();
   }, []);
 
@@ -91,11 +87,9 @@ const App = () => {
 
     const blob = new Blob(["Placeholder TTL content"], { type: "text/turtle" });
     const url = URL.createObjectURL(blob);
-
     setDownloadLink(url);
     setDownloadFilename(`${profileName.replace(/\s+/g, "_")}.ttl`);
 
-    // Generate JSON preview
     const jsonData = {};
     fields.forEach(field => {
       jsonData[field.label] = { type: "Class", properties: {} };
@@ -105,111 +99,71 @@ const App = () => {
   };
 
   return (
-    <>
-      <Particles
-        id="particles-js"
-        options={{
-          fpsLimit: 60,
-          fullScreen: { enable: true },
-          background: {
-            color: "#281D40",
-          },
-          particles: {
-            number: { value: 80 },
-            color: { value: "#ffffff" },
-            shape: { type: "circle" },
-            opacity: { value: 0.7 },
-            size: { value: 2 },
-            move: { enable: true, speed: 1 },
-            links: { enable: true, distance: 130, color: "#ffffff", opacity: 0.6 },
-          },
-          interactivity: {
-            events: {
-              onHover: {
-                enable: true,
-                mode: "repulse",
-              },
-              onClick: {
-                enable: true,
-                mode: "push",
-              },
-            },
-            modes: {
-              repulse: {
-                distance: 100,
-                duration: 0.4,
-              },
-              push: {
-                quantity: 4,
-              },
-            },
-          },
-        }}
-      />
-      <div className="app-container">
-        <header className="app-header">
-          <h1 className="app-title">Interoperability Agent</h1>
-          <nav className="nav-links">
-            <span onClick={() => setPage("home")}>Home</span>
-            <span onClick={() => setPage("about")}>About</span>
-            <span onClick={() => setPage("service")}>Our Service</span>
-            <span onClick={() => setPage("demo")}>Demo</span>
-          </nav>
-        </header>
+    <div className="app-container">
+      <header className="app-header">
+        <h1 className="app-title">Interoperability Agent</h1>
+        <nav className="nav-links">
+          <span onClick={() => setPage("home")}>Home</span>
+          <span onClick={() => setPage("about")}>About</span>
+          <span onClick={() => setPage("service")}>Our Service</span>
+          <span onClick={() => setPage("demo")}>Demo</span>
+        </nav>
+      </header>
 
-        {page === "about" && (
-          <section className="content-section">
-            <h2>About Us</h2>
-            <p>We are an interoperability-focused platform...</p>
-          </section>
-        )}
+      {page === "home" && (
+        <section className="landing-section">
+          <h2 className="landing-title">Welcome to the Interoperability Agent</h2>
+          <p>Navigate to the "Demo" section to start building your profile.</p>
+        </section>
+      )}
 
-        {page === "service" && (
-          <section className="content-section">
-            <h2>Our Service</h2>
-            <p>We provide data-sharing solutions for logistics...</p>
-          </section>
-        )}
+      {page === "about" && (
+        <section className="content-section">
+          <h2>About Us</h2>
+          <p>We are an interoperability-focused platform...</p>
+        </section>
+      )}
 
-        {page === "demo" && (
-          <section className="profile-builder-section">
-            <input
-              type="text"
-              className="profile-name-input"
-              placeholder="Enter profile name..."
-              value={profileName}
-              onChange={(e) => setProfileName(e.target.value)}
-            />
-            <div className="clickable-container">
-              <div className="available-fields">
-                <h3>Available Fields</h3>
-                <div className="field-buttons">
-                  {availableFields.map((concept, index) => (
-                    <ClickableItem key={index} name={concept.label} addToProfile={() => addToProfile(concept)} />
-                  ))}
-                </div>
+      {page === "service" && (
+        <section className="content-section">
+          <h2>Our Service</h2>
+          <p>We provide data-sharing solutions for logistics...</p>
+        </section>
+      )}
+
+      {page === "demo" && (
+        <section className="profile-builder-section">
+          <div className="profile-builder-container">
+            <aside className="sidebar">
+              <h3>Available Fields</h3>
+              <div className="field-buttons">
+                {availableFields.map((concept, index) => (
+                  <ClickableItem key={index} name={concept.label} addToProfile={() => addToProfile(concept)} />
+                ))}
               </div>
+            </aside>
+            <div className="profile-panel">
+              <input
+                type="text"
+                className="profile-name-input"
+                placeholder="Enter profile name..."
+                value={profileName}
+                onChange={(e) => setProfileName(e.target.value)}
+              />
               <ProfileArea fields={fields} removeItem={removeItem} />
+              <button className="save-button" onClick={saveProfile}>Save Profile</button>
+              {downloadLink && <a href={downloadLink} download={downloadFilename} className="download-button">Download Profile (.ttl)</a>}
+              {jsonPreview && (
+                <div className="json-preview-box">
+                  <h3>JSON Preview</h3>
+                  <pre>{JSON.stringify(jsonPreview, null, 2)}</pre>
+                </div>
+              )}
             </div>
-            <button className="save-button" onClick={saveProfile}>Save Profile</button>
-            {downloadLink && <a href={downloadLink} download={downloadFilename} className="download-button">Download Profile (.ttl)</a>}
-            {jsonPreview && (
-              <div className="json-preview-box">
-                <h3>JSON Preview</h3>
-                <pre>{JSON.stringify(jsonPreview, null, 2)}</pre>
-              </div>
-            )}
-          </section>
-        )}
-
-        {page === "home" && (
-          <section className="landing-section">
-            <h2 className="landing-title">Welcome to the Interoperability Agent</h2>
-            <p>Navigate to the "Demo" section to start building your profile.</p>
-          </section>
-        )}
-      </div>
-    </>
+          </div>
+        </section>
+      )}
+    </div>
   );
 };
 
