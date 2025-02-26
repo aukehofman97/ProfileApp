@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as rdf from 'rdflib';
 import './App.css';
+import { useAuth0 } from "@auth0/auth0-react";
 
 const DIGITALTWIN_TTL = process.env.PUBLIC_URL + "/data/DigitalTwin.ttl";
 const EVENT_TTL = process.env.PUBLIC_URL + "/data/Event.ttl";
@@ -10,6 +11,30 @@ const ClickableItem = ({ name, addToProfile }) => (
     {name}
   </button>
 );
+
+const LoginButton = () => {
+  const { loginWithRedirect } = useAuth0();
+  return <button className="auth-button" onClick={() => loginWithRedirect()}>Log In</button>;
+};
+
+const LogoutButton = () => {
+  const { logout } = useAuth0();
+  return <button className="auth-button" onClick={() => logout({ returnTo: window.location.origin })}>Log Out</button>;
+};
+
+const Profile = () => {
+  const { user, isAuthenticated } = useAuth0();
+
+  return (
+    isAuthenticated && (
+      <div className="profile-container">
+        <img src={user.picture} alt={user.name} className="profile-picture" />
+        <h2>{user.name}</h2>
+        <p>{user.email}</p>
+      </div>
+    )
+  );
+};
 
 const ProfileArea = ({ fields, removeItem }) => (
   <div className="profile-box">
@@ -30,6 +55,7 @@ const ProfileArea = ({ fields, removeItem }) => (
 );
 
 const App = () => {
+  const { isAuthenticated } = useAuth0();
   const [fields, setFields] = useState([]);
   const [availableFields, setAvailableFields] = useState([]);
   const [profileName, setProfileName] = useState("");
@@ -110,6 +136,7 @@ const App = () => {
           <span onClick={() => setPage("about")}>About</span>
           <span onClick={() => setPage("service")}>Our Service</span>
           <span onClick={() => setPage("demo")}>Demo</span>
+          {isAuthenticated ? <LogoutButton /> : <LoginButton />}
         </nav>
       </header>
 
@@ -127,8 +154,9 @@ const App = () => {
         </section>
       )}
 
-      {page === "demo" && (
+      {page === "demo" && isAuthenticated ? (
         <section className="profile-builder-section">
+          <Profile />
           <input
             type="text"
             className="profile-name-input"
@@ -156,7 +184,9 @@ const App = () => {
             </div>
           )}
         </section>
-      )}
+      ) : page === "demo" ? (
+        <p className="restricted-message">Please log in to access the demo.</p>
+      ) : null}
 
       {page === "home" && (
         <section className="landing-section">
