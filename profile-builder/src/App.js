@@ -6,16 +6,16 @@ const DIGITALTWIN_TTL = process.env.PUBLIC_URL + "/data/DigitalTwin.ttl";
 const EVENT_TTL = process.env.PUBLIC_URL + "/data/Event.ttl";
 
 const ClickableItem = ({ name, addToProfile }) => (
-  <button className="clickable-button" onClick={() => addToProfile(name)}>
+  <button className="clickable-button spaced-button" onClick={() => addToProfile(name)}>
     {name}
   </button>
 );
 
 const ProfileArea = ({ fields, removeItem }) => (
   <div className="profile-box">
-    <h3 className="profile-title">Selected Classes</h3>
+    <h3 className="profile-title">Profile</h3>
     {fields.length === 0 ? (
-      <p className="drop-placeholder">Click on a class to add it...</p>
+      <p className="drop-placeholder">Click fields to add them...</p>
     ) : (
       <div className="profile-field-container">
         {fields.map((field, index) => (
@@ -43,12 +43,14 @@ const App = () => {
       try {
         const digitalTwinData = await fetch(DIGITALTWIN_TTL).then(res => res.text());
         const eventData = await fetch(EVENT_TTL).then(res => res.text());
+
         const classes = extractOwlClasses(digitalTwinData + eventData);
         setAvailableFields(classes);
       } catch (error) {
         console.error("❌ Error loading TTL files:", error);
       }
     };
+
     loadTTLFiles();
   }, []);
 
@@ -87,6 +89,7 @@ const App = () => {
 
     const blob = new Blob(["Placeholder TTL content"], { type: "text/turtle" });
     const url = URL.createObjectURL(blob);
+
     setDownloadLink(url);
     setDownloadFilename(`${profileName.replace(/\s+/g, "_")}.ttl`);
 
@@ -110,13 +113,6 @@ const App = () => {
         </nav>
       </header>
 
-      {page === "home" && (
-        <section className="landing-section">
-          <h2 className="landing-title">Welcome to the Interoperability Agent</h2>
-          <p>Navigate to the "Demo" section to start building your profile.</p>
-        </section>
-      )}
-
       {page === "about" && (
         <section className="content-section">
           <h2>About Us</h2>
@@ -133,34 +129,39 @@ const App = () => {
 
       {page === "demo" && (
         <section className="profile-builder-section">
-          <div className="profile-builder-container">
-            <aside className="sidebar">
+          <input
+            type="text"
+            className="profile-name-input"
+            placeholder="Enter profile name..."
+            value={profileName}
+            onChange={(e) => setProfileName(e.target.value)}
+          />
+          <div className="clickable-container">
+            <div className="available-fields">
               <h3>Available Fields</h3>
               <div className="field-buttons">
                 {availableFields.map((concept, index) => (
                   <ClickableItem key={index} name={concept.label} addToProfile={() => addToProfile(concept)} />
                 ))}
               </div>
-            </aside>
-            <div className="profile-panel">
-              <input
-                type="text"
-                className="profile-name-input"
-                placeholder="Enter profile name..."
-                value={profileName}
-                onChange={(e) => setProfileName(e.target.value)}
-              />
-              <ProfileArea fields={fields} removeItem={removeItem} />
-              <button className="save-button" onClick={saveProfile}>Save Profile</button>
-              {downloadLink && <a href={downloadLink} download={downloadFilename} className="download-button">Download Profile (.ttl)</a>}
-              {jsonPreview && (
-                <div className="json-preview-box">
-                  <h3>JSON Preview</h3>
-                  <pre>{JSON.stringify(jsonPreview, null, 2)}</pre>
-                </div>
-              )}
             </div>
+            <ProfileArea fields={fields} removeItem={removeItem} />
           </div>
+          <button className="save-button" onClick={saveProfile}>Save Profile</button>
+          {downloadLink && <a href={downloadLink} download={downloadFilename} className="download-button">Download Profile (.ttl)</a>}
+          {jsonPreview && (
+            <div className="json-preview-box">
+              <h3>JSON Preview</h3>
+              <pre>{JSON.stringify(jsonPreview, null, 2)}</pre>
+            </div>
+          )}
+        </section>
+      )}
+
+      {page === "home" && (
+        <section className="landing-section">
+          <h2 className="landing-title">Welcome to the Interoperability Agent</h2>
+          <p>Navigate to the "Demo" section to start building your profile.</p>
         </section>
       )}
     </div>
