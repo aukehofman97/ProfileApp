@@ -1,9 +1,15 @@
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background: #F8F9FA; /* Light background */
+  background: white;
   color: #333;
   overflow-x: hidden;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Navbar */
@@ -16,56 +22,48 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: fixed;
   width: 100%;
+  height: 70px;
   top: 0;
+  left: 0;
   z-index: 100;
 }
 
-.app-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 20px;
 }
 
 .nav-links span {
-  margin-left: 20px;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   color: #555;
+  padding: 10px 15px;
+  transition: color 0.3s, transform 0.2s;
 }
 
 .nav-links span:hover {
   color: #E91E63;
+  transform: scale(1.05);
 }
 
-/* Layout */
-.landing-section,
-.content-section {
-  margin-top: 80px;
-  text-align: center;
-  padding: 50px;
-}
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
 
-.profile-builder-container {
-  display: flex;
-  gap: 20px;
-  padding: 50px;
-}
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
 
-.sidebar {
-  width: 30%;
-  background: white;
-  padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.profile-panel {
-  width: 70%;
-}
-
-/* JSON Preview Box */
-.json-preview-box {
-  background: #f1f1f1;
-  padding: 15px;
-  border-radius: 5px;
-  overflow: auto;
+  .nav-links span {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
 }
