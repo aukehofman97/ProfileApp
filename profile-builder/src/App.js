@@ -187,13 +187,6 @@ const App = () => {
       ) : page === "demo" ? (
         <p className="restricted-message">Please log in to access the demo.</p>
       ) : null}
-
-      {page === "home" && (
-        <section className="landing-section">
-          <h2 className="landing-title">Welcome to the Interoperability Agent</h2>
-          <p>Navigate to the "Demo" section to start building your profile.</p>
-        </section>
-      )}
     </div>
   );
 };
