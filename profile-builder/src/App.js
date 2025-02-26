@@ -14,6 +14,12 @@ const ClickableItem = ({ name, addToProfile }) => (
 
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
+
+  if (!loginWithRedirect) {
+    console.error("Auth0 loginWithRedirect is not available.");
+    return null; // Don't render the button if it's undefined
+  }
+
   return <button className="auth-button" onClick={() => loginWithRedirect()}>Log In</button>;
 };
 
