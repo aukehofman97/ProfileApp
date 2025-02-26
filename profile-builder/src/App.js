@@ -13,30 +13,38 @@ const ClickableItem = ({ name, addToProfile }) => (
 );
 
 const LoginButton = () => {
-  const { loginWithRedirect, isLoading } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) return <button className="auth-button" disabled>Loading...</button>;
 
-  return <button className="auth-button" onClick={() => loginWithRedirect()}>Log In</button>;
+  return !isAuthenticated ? (
+    <button className="auth-button" onClick={() => loginWithRedirect()}>Log In</button>
+  ) : null;
 };
 
 const LogoutButton = () => {
-  const { logout } = useAuth0();
-  return <button className="auth-button" onClick={() => logout({ returnTo: window.location.origin })}>Log Out</button>;
+  const { logout, isAuthenticated } = useAuth0();
+
+  const handleLogout = () => {
+    logout({ returnTo: window.location.origin });
+    window.location.reload(); // Refresh auth state after logout
+  };
+
+  return isAuthenticated ? (
+    <button className="auth-button" onClick={handleLogout}>Log Out</button>
+  ) : null;
 };
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
 
-  return (
-    isAuthenticated && (
-      <div className="profile-container">
-        <img src={user.picture} alt={user.name} className="profile-picture" />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-      </div>
-    )
-  );
+  return isAuthenticated ? (
+    <div className="profile-container">
+      <img src={user.picture} alt={user.name} className="profile-picture" />
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+    </div>
+  ) : null;
 };
 
 const ProfileArea = ({ fields, removeItem }) => (
@@ -147,60 +155,18 @@ const App = () => {
         <div>Loading...</div>
       ) : (
         <>
-          {page === "about" && (
-            <section className="content-section">
-              <h2>About Us</h2>
-              <p>We are an interoperability-focused platform...</p>
-            </section>
-          )}
-
-          {page === "service" && (
-            <section className="content-section">
-              <h2>Our Service</h2>
-              <p>We provide data-sharing solutions for logistics...</p>
-            </section>
-          )}
-
+          {page === "about" && <section className="content-section"><h2>About Us</h2><p>We are an interoperability-focused platform...</p></section>}
+          {page === "service" && <section className="content-section"><h2>Our Service</h2><p>We provide data-sharing solutions for logistics...</p></section>}
           {page === "demo" && isAuthenticated ? (
             <section className="profile-builder-section">
               <Profile />
-              <input
-                type="text"
-                className="profile-name-input"
-                placeholder="Enter profile name..."
-                value={profileName}
-                onChange={(e) => setProfileName(e.target.value)}
-              />
+              <input type="text" className="profile-name-input" placeholder="Enter profile name..." value={profileName} onChange={(e) => setProfileName(e.target.value)} />
               <div className="clickable-container">
-                <div className="available-fields">
-                  <h3>Available Fields</h3>
-                  <div className="field-buttons">
-                    {availableFields.map((concept, index) => (
-                      <ClickableItem key={index} name={concept.label} addToProfile={() => addToProfile(concept)} />
-                    ))}
-                  </div>
-                </div>
+                <div className="available-fields"><h3>Available Fields</h3><div className="field-buttons">{availableFields.map((concept, index) => (<ClickableItem key={index} name={concept.label} addToProfile={() => addToProfile(concept)} />))}</div></div>
                 <ProfileArea fields={fields} removeItem={removeItem} />
               </div>
-              <button className="save-button" onClick={saveProfile}>Save Profile</button>
-              {downloadLink && <a href={downloadLink} download={downloadFilename} className="download-button">Download Profile (.ttl)</a>}
-              {jsonPreview && (
-                <div className="json-preview-box">
-                  <h3>JSON Preview</h3>
-                  <pre>{JSON.stringify(jsonPreview, null, 2)}</pre>
-                </div>
-              )}
             </section>
-          ) : page === "demo" ? (
-            <p className="restricted-message">Please log in to access the demo.</p>
-          ) : null}
-
-          {page === "home" && (
-            <section className="landing-section">
-              <h2 className="landing-title">Welcome to the Interoperability Agent</h2>
-              <p>Navigate to the "Demo" section to start building your profile.</p>
-            </section>
-          )}
+          ) : page === "demo" ? <p className="restricted-message">Please log in to access the demo.</p> : null}
         </>
       )}
     </div>
