@@ -13,29 +13,44 @@ const ClickableItem = ({ name, addToProfile }) => (
 );
 
 const LoginButton = () => {
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
 
-  if (!loginWithRedirect) {
-    console.error("Auth0 loginWithRedirect is not available.");
-    return null;
-  }
+  useEffect(() => {
+    console.log("Login button auth state:", isAuthenticated);
+  }, [isAuthenticated]);
 
   return <button className="auth-button" onClick={() => loginWithRedirect()}>Log In</button>;
 };
 
 const LogoutButton = () => {
-  const { logout } = useAuth0();
-  return <button className="auth-button" onClick={() => {
-    logout({ returnTo: window.location.origin });
-    window.location.reload();
-  }}>Log Out</button>;
+  const { logout, isAuthenticated } = useAuth0();
+
+  useEffect(() => {
+    console.log("Logout button auth state:", isAuthenticated);
+  }, [isAuthenticated]);
+
+  return <button className="auth-button" onClick={() => 
+    logout({ 
+      logoutParams: {
+        returnTo: "https://interoperabilityagent.eu"
+      }
+    })
+  }>Log Out</button>;
 };
 
 const Profile = () => {
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
+  useEffect(() => {
+    console.log("Profile component state:", { isAuthenticated, isLoading, user });
+  }, [isAuthenticated, isLoading, user]);
+
+  if (isLoading) {
+    return <div>Loading profile...</div>;
+  }
 
   return (
-    isAuthenticated && (
+    isAuthenticated && user && (
       <div className="profile-container">
         <img src={user.picture} alt={user.name} className="profile-picture" />
         <h2>{user.name}</h2>
@@ -64,7 +79,7 @@ const ProfileArea = ({ fields, removeItem }) => (
 );
 
 const App = () => {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading, error } = useAuth0();
   const [fields, setFields] = useState([]);
   const [availableFields, setAvailableFields] = useState([]);
   const [profileName, setProfileName] = useState("");
@@ -72,6 +87,10 @@ const App = () => {
   const [downloadFilename, setDownloadFilename] = useState("");
   const [jsonPreview, setJsonPreview] = useState(null);
   const [page, setPage] = useState("home");
+
+  useEffect(() => {
+    console.log("App auth state:", { isAuthenticated, isLoading, error });
+  }, [isAuthenticated, isLoading, error]);
 
   useEffect(() => {
     const loadTTLFiles = async () => {
@@ -136,7 +155,13 @@ const App = () => {
     setJsonPreview(jsonData);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (error) {
+    return <div>Authentication Error: {error.message}</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading application...</div>;
+  }
 
   return (
     <div className="app-container">
