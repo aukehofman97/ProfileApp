@@ -497,6 +497,17 @@ body {
   line-height: 1.6;
 }
 
+.vision-main h2 {
+  color: #E91E63;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.vision-main p {
+  margin-bottom: 0;
+}
+
 .vision-subsections-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -531,6 +542,10 @@ body {
 
   .vision-main {
     font-size: 1rem;
+  }
+
+  .vision-main h2 {
+    font-size: 1.5rem;
   }
 
   .vision-subsections-container {

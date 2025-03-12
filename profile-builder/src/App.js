@@ -202,6 +202,7 @@ const App = () => {
           {/* Network Effect Block */}
           <div className="vision-block">
             <div className="vision-main">
+              <h2>Network effect</h2>
               <p>In the rapidly evolving logistics industry, network effects play a pivotal role in enhancing operational efficiency and fostering collaboration. Network effects occur when the value of a service or product increases as more people use it. This phenomenon is particularly relevant for customers, logistics service providers, and authorities as they strive to create seamless and efficient logistics networks.</p>
             </div>
             <div className="vision-subsections-container">
@@ -223,6 +224,7 @@ const App = () => {
           {/* Benefits Block */}
           <div className="vision-block">
             <div className="vision-main">
+              <h2>Benefits</h2>
               <p>Organizations benefit from digitization, primarily by reduction of administrative costs. Business process optimization and innovation is obtained, contributing to sustainability goals by carbon footprint – and waste reduction.</p>
             </div>
             <div className="vision-subsections-container">
@@ -244,6 +246,7 @@ const App = () => {
           {/* Open, scalable communities Block */}
           <div className="vision-block">
             <div className="vision-main">
+              <h2>Open, scalable communities</h2>
               <p>Communities are a way to organize the implementation of data sharing. It must start somewhere to create a network effect! It is about an open network without central governance! Everybody can join, thus creating a snowball effect. Our focus is on finding opinion leaders and initial applications to widening.</p>
             </div>
             <div className="vision-subsections-container">
@@ -273,6 +276,7 @@ const App = () => {
           {/* Three ways for data sharing Block */}
           <div className="vision-block">
             <div className="vision-main">
+              <h2>Three ways for data sharing</h2>
               <p>The core of our solution is Interoperability with Artificial Intelligence – IAI – embedded in other solutions and services for implementing data sharing. Each organization makes its own choice as to this implementation.</p>
             </div>
             <div className="vision-subsections-container">
@@ -294,6 +298,7 @@ const App = () => {
           {/* Apps on smart devices Block */}
           <div className="vision-block">
             <div className="vision-main">
+              <h2>Apps on smart devices</h2>
               <p>Mobile and web applications play a crucial role in streamlining logistics operations and enhancing user experience. These apps provide real-time updates, tracking, and communication tools for customers, service providers, and authorities. They provide full functionality to SMEs, Small and Medium sized Enterprises, and function as a (remote) portal to many large organizations (customers, logistics service providers, authorities).</p>
             </div>
           </div>
