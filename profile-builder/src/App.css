@@ -31,6 +31,13 @@ body {
   font-weight: bold;
   color: #E91E63;
   margin-right: 20px;
+  transition: color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.app-title:hover {
+  color: #FF4081;
+  transform: scale(1.05);
 }
 
 /* Navigation Links */

@@ -166,9 +166,8 @@ const App = () => {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1 className="app-title">Interoperability Agent</h1>
+        <h1 className="app-title" onClick={() => setPage("home")} style={{ cursor: 'pointer' }}>Interoperability Agent</h1>
         <nav className="nav-links">
-          <span onClick={() => setPage("home")}>Home</span>
           <span onClick={() => setPage("about")}>About</span>
           <span onClick={() => setPage("service")}>Our Service</span>
           <span onClick={() => setPage("demo")}>Demo</span>
