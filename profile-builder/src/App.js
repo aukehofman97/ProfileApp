@@ -180,7 +180,7 @@ const App = () => {
         <section className="content-section">
           <div className="about-main">
             <h2>About</h2>
-            <p>Interoperability Agent enables organizations to share data by providing them with the necessary capabilities. We provide services, downloadable software supporting (inter)national standards, and online tooling to configurate this software. Our core focus is to enable data transformation with Large Language Models (LLMs) and common semantics. We provide services to</p>
+            <p>Interoperability Agent enables organizations to share data by providing them with the necessary capabilities. We provide services, downloadable software supporting (inter)national standards, and online tooling to configurate this software. Our core focus is to enable data transformation with Large Language Models (LLMs) and common semantics.</p>
           </div>
           
           <div className="about-subsections-container">
