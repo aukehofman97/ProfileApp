@@ -1,9 +1,9 @@
 /* Import the selected font families */
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
 body {
   margin: 0;
-  font-family: 'Fira Code', 'Source Code Pro', 'Menlo', 'Consolas', 'DejaVu Sans Mono', monospace;
+  font-family: 'Open Sans', sans-serif;
   background: white;
   color: #333;
   overflow-x: hidden;
