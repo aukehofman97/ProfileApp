@@ -108,9 +108,54 @@ body {
 
 /* Content Sections (About, Service) */
 .content-section {
-  text-align: left; /* Moves text to the right */
-  padding: 60px 80px; /* Adds padding to move it down & right */
+  text-align: left;
+  padding: 60px 80px;
   color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* About Page Styling */
+.about-main {
+  margin-bottom: 50px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.about-subsection {
+  margin-bottom: 40px;
+}
+
+.about-subsection h2 {
+  color: #E91E63;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.about-subsection p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+  .content-section {
+    padding: 40px 20px;
+  }
+  
+  .about-main {
+    font-size: 1rem;
+  }
+  
+  .about-subsection h2 {
+    font-size: 1.3rem;
+  }
+  
+  .about-subsection p {
+    font-size: 1rem;
+  }
 }
 
 /* DEMO PAGE - Smaller text and spacing */

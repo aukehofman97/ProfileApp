@@ -177,8 +177,19 @@ const App = () => {
 
       {page === "about" && (
         <section className="content-section">
-          <h2>About Us</h2>
-          <p>We are an interoperability-focused platform...</p>
+          <div className="about-main">
+            <p>Interoperability Agent enables organizations to share data by providing them with the necessary capabilities. We provide services, downloadable software supporting (inter)national standards, and online tooling to configurate this software. Our core focus is to enable data transformation with Large Language Models (LLMs) and common semantics. We provide services to</p>
+          </div>
+          
+          <div className="about-subsection">
+            <h2>Mission</h2>
+            <p>Our mission is to make data sharing a commodity, like the Internet and the mobile network. We provide solutions and services whereby each organization can share data with any other one, for all types of use cases.</p>
+          </div>
+
+          <div className="about-subsection">
+            <h2>Market</h2>
+            <p>Supply and logistics are our primary market. It is about movement, storage, handling, and value-added services for products, compliant with regulations. We enable paperless logistics and production, based on capabilities and requirements of authorities. Electronic Freight Transport Information Regulation (eFTI) and Digital Product Passports (DPP) are two examples of such. By providing templates, especially Small and Medium sized Enterprises (SMEs) are able to digitize business with all customers and these customers, including larger Logistics Service Providers, are able to do the same.</p>
+          </div>
         </section>
       )}
 
