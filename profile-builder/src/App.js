@@ -170,7 +170,7 @@ const App = () => {
         <nav className="nav-links">
           <span onClick={() => setPage("about")}>About</span>
           <span onClick={() => setPage("vision")}>Vision</span>
-          <span onClick={() => setPage("service")}>Our Service</span>
+          <span onClick={() => setPage("service")}>Service & Solution</span>
           <span onClick={() => setPage("demo")}>Demo</span>
           {isAuthenticated ? <LogoutButton /> : <LoginButton />}
         </nav>
@@ -393,7 +393,7 @@ const App = () => {
 
       {page === "home" && (
         <section className="landing-section">
-          <h2 className="landing-title">Welcome to the Interoperability Agent</h2>
+          <h2 className="landing-title">IAI - Interoperability with Artificial Intelligence</h2>
           <p>Navigate to the "Demo" section to start building your profile.</p>
         </section>
       )}
