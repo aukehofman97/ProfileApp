@@ -357,3 +357,109 @@ body {
 .download-button:hover {
   transform: scale(1.05);
 }
+
+/* Service Page Styling */
+.service-main {
+  margin-bottom: 50px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.service-block {
+  margin-bottom: 60px;
+}
+
+.service-block h2 {
+  color: #E91E63;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.service-card {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.service-card h3 {
+  color: #E91E63;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.service-card p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.service-subsections-container {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+.service-subsection {
+  flex: 1;
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.service-subsection h3 {
+  color: #E91E63;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.service-subsection p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive styling for service page */
+@media (max-width: 1024px) {
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-subsections-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .service-main, 
+  .service-card p,
+  .service-subsection p {
+    font-size: 1rem;
+  }
+
+  .service-block h2 {
+    font-size: 1.5rem;
+  }
+
+  .service-card h3,
+  .service-subsection h3 {
+    font-size: 1.2rem;
+  }
+
+  .service-card,
+  .service-subsection {
+    padding: 20px;
+  }
+}

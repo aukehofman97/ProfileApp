@@ -198,8 +198,55 @@ const App = () => {
 
       {page === "service" && (
         <section className="content-section">
-          <h2>Our Service</h2>
-          <p>We provide data-sharing solutions for logistics...</p>
+          <div className="service-main">
+            <p>Our services and solutions focus on creating and supporting the initial setup of communities and provide them with open data sharing solutions. To its core is data transformation by Large Language Models with the semantic model developed in the CEF (Connecting Europe Facilities) funded FEDeRATED Action (federatedplatforms.eu).</p>
+          </div>
+
+          {/* Solutions Block */}
+          <div className="service-block">
+            <h2>Solutions</h2>
+            <div className="service-grid">
+              <div className="service-card">
+                <h3>Semantics and standards</h3>
+                <p>There is a variety of open and defacto standards. These are harmonized by their semantics. The semantics itself is available in an open standard. When available, a standardized semantic model will replace our current solution that is based on the FEDeRATED semantic model. Our model enables transformation between any hierarchical data set, either an internal format or a (community) standard.</p>
+              </div>
+              <div className="service-card">
+                <h3>Multimodal Transport Service</h3>
+                <p>Semantics specifies a set of interaction like bookings, orders, and various visibility events like arrival – and departure events. It is called the Multimodal Transport Service (MTS) and supports data sharing for all modalities and cargo types. This service also specifies all required (electronic) document data sets. Compare it with the United Nations Lay-out key developed years ago for transport documents.</p>
+              </div>
+              <div className="service-card">
+                <h3>Large Language Models</h3>
+                <p>Our semantic model and its services like the Multimodal Transport Service is the lingua franca for a Large Language Model. Such a model can transform any data set and standard into another via this intermediate language.</p>
+              </div>
+              <div className="service-card">
+                <h3>Gateway</h3>
+                <p>A gateway or proxy can be downloaded and installed. It is a dockerized solution that can be installed on any server, either in your own IT - or in a cloud environment. After installation, there is an openAPI (open Application Programming Interface) configured to your data sharing capabilities for integration with your own IT system(s). Any firewall settings must be configured to enable data sharing with others. A gateway will interface with any selected Trust Service Provider in a community, either using tokens or interfacing with wallet software for VCs.</p>
+              </div>
+              <div className="service-card">
+                <h3>Configuration</h3>
+                <p>Each organization has different capabilities and data requirements. These capabilities and requirements select and configure a Data Sharing Service like the MTS to create a data structure of the openAPI provided by a Gateway or implemented by a platform. The selection of a Data Sharing Service is the basis for configuring a collaboration agreement for data sharing with another organization. This provides large scale data sharing. We provide an online tool for this configuration and management of collaboration agreements.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Services Block */}
+          <div className="service-block">
+            <h2>Services</h2>
+            <div className="service-subsections-container">
+              <div className="service-subsection">
+                <h3>Community support</h3>
+                <p>Identifying opinion leaders is the start of an open community. We assist an opinion leader in setting up a community with its customers, service providers, competitors, and authorities. We support such a community in formulating their business case, its supporting use case, and drafting an implementation architecture. We support individual organizations in integrating the solution with their internal IT systems. When required, app development is supported.</p>
+              </div>
+              <div className="service-subsection">
+                <h3>Use case specification</h3>
+                <p>It is about drafting all interactions between stakeholders in a use case and matching these with an available Data Sharing Service. It is also about identifying missing Data Sharing Services, elements of the semantic model, and mapping to implemented (open or defacto) standards.</p>
+              </div>
+              <div className="service-subsection">
+                <h3>Service Management and Innovation</h3>
+                <p>The semantic model and its Data Sharing Services grow evolutionary. Initially, the model supports at least Multimodal transport Visibility as an example of a killer application. The model is extended with evolving requirements of use cases. These extensions can be open or a community may want them available to its members to gain a competitive advantage.</p>
+              </div>
+            </div>
+          </div>
         </section>
       )}
 
