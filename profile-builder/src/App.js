@@ -169,6 +169,7 @@ const App = () => {
         <h1 className="app-title" onClick={() => setPage("home")} style={{ cursor: 'pointer' }}>Interoperability Agent</h1>
         <nav className="nav-links">
           <span onClick={() => setPage("about")}>About</span>
+          <span onClick={() => setPage("vision")}>Vision</span>
           <span onClick={() => setPage("service")}>Our Service</span>
           <span onClick={() => setPage("demo")}>Demo</span>
           {isAuthenticated ? <LogoutButton /> : <LoginButton />}
@@ -191,6 +192,109 @@ const App = () => {
             <div className="about-subsection">
               <h2>Market</h2>
               <p>Supply and logistics are our primary market. It is about movement, storage, handling, and value-added services for products, compliant with regulations. We enable paperless logistics and production, based on capabilities and requirements of authorities. Electronic Freight Transport Information Regulation (eFTI) and Digital Product Passports (DPP) are two examples of such. By providing templates, especially Small and Medium sized Enterprises (SMEs) are able to digitize business with all customers and these customers, including larger Logistics Service Providers, are able to do the same.</p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {page === "vision" && (
+        <section className="content-section">
+          {/* Network Effect Block */}
+          <div className="vision-block">
+            <div className="vision-main">
+              <p>In the rapidly evolving logistics industry, network effects play a pivotal role in enhancing operational efficiency and fostering collaboration. Network effects occur when the value of a service or product increases as more people use it. This phenomenon is particularly relevant for customers, logistics service providers, and authorities as they strive to create seamless and efficient logistics networks.</p>
+            </div>
+            <div className="vision-subsections-container">
+              <div className="vision-subsection">
+                <h3>Customers</h3>
+                <p>Network effects lead to improved service quality and cost reduction. As more customers join a logistics network, service providers can optimize routes, consolidate shipments, and offer more competitive pricing. Additionally, a larger customer base allows for a more comprehensive range of services, catering to diverse needs and preferences.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Logistics Service Providers</h3>
+                <p>Logistics service providers benefit from network effects through increased operational efficiency and market reach. As the network grows, providers can leverage economies of scale, reduce idle times, and enhance asset utilization. Furthermore, collaboration with other providers within the network can lead to shared resources, knowledge exchange, and innovative solutions.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Authorities</h3>
+                <p>Authorities, such as regulatory bodies and government agencies, play a crucial role in facilitating network effects. By promoting standardization, ensuring compliance, and providing infrastructure support, authorities can help create a conducive environment for network growth. Additionally, data sharing between authorities and logistics networks can enhance transparency, security, and overall efficiency.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Benefits Block */}
+          <div className="vision-block">
+            <div className="vision-main">
+              <p>Organizations benefit from digitization, primarily by reduction of administrative costs. Business process optimization and innovation is obtained, contributing to sustainability goals by carbon footprint – and waste reduction.</p>
+            </div>
+            <div className="vision-subsections-container">
+              <div className="vision-subsection">
+                <h3>Cost reduction</h3>
+                <p>It is about better quality data. Retyping data and human interpretation of data is avoided, since data is digitized and machine-processable with a common semantics. It is also about reduction of error handling. Each organization can make its IT systems suitable for this common data.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Business process optimization</h3>
+                <p>Organizations become agile and resilient with supply chain visibility and advanced knowledge of disruptions. Enhanced decision-making contributes to predictable and sustainable goods flows and improves customer services.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Business process innovation</h3>
+                <p>Artificial Intelligences will impact supply and logistics, especially decision-making. Innovative solution providers will offer interoperable AI agents (as a service). Enterprises can dynamically share resources, automatic routing of packages in logistics networks will be possible, monitoring and control by supervising bodies will be improved, etc. The Physical Internet is created.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Open, scalable communities Block */}
+          <div className="vision-block">
+            <div className="vision-main">
+              <p>Communities are a way to organize the implementation of data sharing. It must start somewhere to create a network effect! It is about an open network without central governance! Everybody can join, thus creating a snowball effect. Our focus is on finding opinion leaders and initial applications to widening.</p>
+            </div>
+            <div className="vision-subsections-container">
+              <div className="vision-subsection">
+                <h3>Opinion leaders</h3>
+                <p>These are persons and organizations in your community that influence decisions of others. They are key to the success of forming an open community. They are the ones that spread the message. Opinion leaders must strive for an open, neutral data sharing solution.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Killer application</h3>
+                <p>Each organization will have its own killer application. To form a community, they must have one in common. A killer application addresses benefits that can be achieved easy at a short notice. It is about data sharing that is not yet digitized! It is about low hanging fruit! Focus on cost reduction and business process innovation. Supply chain visibility is an example of such an initial application. Another example is paperless supply and logistics requiring full digitization of data sharing: ordering and visibility. A killer application can also support a particular type of chain like the cold chain.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Widening</h3>
+                <p>Initially, a select group of organizations will commence data sharing with a commitment to expanding its application with others. Another dimension of this expansion involves exploring innovative applications for business advancement. Both aspects of this expansion are achievable with the proposed solutions and services.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Trust</h3>
+                <p>Widening requires trust. It means authentication of one's identity for certainty to share data with another trusted stakeholder. In the short term, tokens issued by Trusted Service Providers will be applied; in the longer term these will be replaced with Verifiable Credentials (VCs), also issued by Trusted Service Providers. The difference between tokens and VCs is there management: tokens are issued and applied with one (or a community) of data sharing partners for a duration (or one time use); you manage a VC yourself in your wallet and use it in your daily data sharing with all others.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Data sharing rules</h3>
+                <p>Applying agreed rules, regulation, and acts is also part of trust. These are the core to create Trusted Service Providers. Available solutions developed by the EC will be applied as much as possible (see for instance dssc.eu).</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Three ways for data sharing Block */}
+          <div className="vision-block">
+            <div className="vision-main">
+              <p>The core of our solution is Interoperability with Artificial Intelligence – IAI – embedded in other solutions and services for implementing data sharing. Each organization makes its own choice as to this implementation.</p>
+            </div>
+            <div className="vision-subsections-container">
+              <div className="vision-subsection">
+                <h3>Gateway or proxy</h3>
+                <p>Gateway software is critical for ensuring seamless connectivity between different systems and platforms within the organizational network. By installing this software, an organization has a central hub, facilitating data exchange, communication, and integration of various applications.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Platform</h3>
+                <p>An organization integrates with a platform and uses the network effect of that platform to share data to rapidly digitize business collaboration. Each platform has its own services to their users and implements data sharing with a common format. Federation of platforms avoids membership of multiple platforms.</p>
+              </div>
+              <div className="vision-subsection">
+                <h3>Cloud service provision</h3>
+                <p>A cloud environment supports data sharing with other users of the same cloud environment and is capable to share data with cloud environments of other providers.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Apps on smart devices Block */}
+          <div className="vision-block">
+            <div className="vision-main">
+              <p>Mobile and web applications play a crucial role in streamlining logistics operations and enhancing user experience. These apps provide real-time updates, tracking, and communication tools for customers, service providers, and authorities. They provide full functionality to SMEs, Small and Medium sized Enterprises, and function as a (remote) portal to many large organizations (customers, logistics service providers, authorities).</p>
             </div>
           </div>
         </section>

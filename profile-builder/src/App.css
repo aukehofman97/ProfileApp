@@ -463,3 +463,89 @@ body {
     padding: 20px;
   }
 }
+
+/* Vision Page Styling */
+.vision-block {
+  margin-bottom: 60px;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.vision-block:nth-child(1) {
+  background-color: #E3F2FD; /* Light blue for Network Effect */
+}
+
+.vision-block:nth-child(2) {
+  background-color: #F3E5F5; /* Light purple for Benefits */
+}
+
+.vision-block:nth-child(3) {
+  background-color: #E8F5E9; /* Light green for Open, scalable communities */
+}
+
+.vision-block:nth-child(4) {
+  background-color: #FFF3E0; /* Light orange for Three ways for data sharing */
+}
+
+.vision-block:nth-child(5) {
+  background-color: #FCE4EC; /* Light pink for Apps on smart devices */
+}
+
+.vision-main {
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.vision-subsections-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.vision-subsection {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.vision-subsection h3 {
+  color: #E91E63;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.vision-subsection p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive styling for vision page */
+@media (max-width: 768px) {
+  .vision-block {
+    padding: 20px;
+  }
+
+  .vision-main {
+    font-size: 1rem;
+  }
+
+  .vision-subsections-container {
+    grid-template-columns: 1fr;
+  }
+
+  .vision-subsection {
+    padding: 20px;
+  }
+
+  .vision-subsection h3 {
+    font-size: 1.2rem;
+  }
+
+  .vision-subsection p {
+    font-size: 1rem;
+  }
+}
