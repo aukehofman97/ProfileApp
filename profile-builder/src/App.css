@@ -122,8 +122,18 @@ body {
   line-height: 1.6;
 }
 
+.about-subsections-container {
+  display: flex;
+  gap: 40px;
+  justify-content: space-between;
+}
+
 .about-subsection {
-  margin-bottom: 40px;
+  flex: 1;
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .about-subsection h2 {
@@ -136,7 +146,7 @@ body {
 .about-subsection p {
   font-size: 1.1rem;
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 /* Responsive styling for smaller screens */
@@ -145,8 +155,17 @@ body {
     padding: 40px 20px;
   }
   
+  .about-subsections-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
   .about-main {
     font-size: 1rem;
+  }
+  
+  .about-subsection {
+    padding: 20px;
   }
   
   .about-subsection h2 {
