@@ -397,6 +397,15 @@ const App = () => {
           <p>Navigate to the "Demo" section to start building your profile.</p>
         </section>
       )}
+      
+      <footer className="footer">
+        <p><strong>Interoperability Agent</strong></p>
+        <p>Wout Hofman</p>
+        <p>T: 06 – 22 499 890</p>
+        <p>KvK 95811583</p>
+        <p>E: wattejelle@icloud.com</p>
+        <p>VAT NL 001181504B65</p>
+      </footer>
     </div>
   );
 };
