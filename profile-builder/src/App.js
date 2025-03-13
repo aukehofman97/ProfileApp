@@ -196,8 +196,15 @@ const App = () => {
           </div>
 
           <div className="about-bio-section">
-            <h2>About Wout Hofman</h2>
-            <p>Wout Hofman, PhD in business administration and computer science (1994), is skilled in accessing business requirements and transforming them in (innovative) solutions. He has over 40 years of experience in data sharing in trade and logistics but also worked extensively in other business areas like the public sector, travel and tourism and industry. Wout has amongst others published three books (EDI Handboek (1989), A Conceptual Model of Business Transaction Management System (1994) and EDI, Web Services and ebXML (2003)). He is very active as (co-)author of over 120 scientific, peer reviewed papers. He was co-promotor of Majeed Mohammadi, who received a cum-laude PhD on ontology alignment in logistics. From its start, he provides technical support to the Digital Transport and Logistics Forum, an expert group raised and chaired by EC DG Move for providing input to the European Mobility Data Space (EMDS).</p>
+            <img 
+              src="/images/wout-hofman.jpg" 
+              alt="Wout Hofman" 
+              className="about-bio-image"
+            />
+            <div className="about-bio-content">
+              <h2>About Wout Hofman</h2>
+              <p>Wout Hofman, PhD in business administration and computer science (1994), is skilled in accessing business requirements and transforming them in (innovative) solutions. He has over 40 years of experience in data sharing in trade and logistics but also worked extensively in other business areas like the public sector, travel and tourism and industry. Wout has amongst others published three books (EDI Handboek (1989), A Conceptual Model of Business Transaction Management System (1994) and EDI, Web Services and ebXML (2003)). He is very active as (co-)author of over 120 scientific, peer reviewed papers. He was co-promotor of Majeed Mohammadi, who received a cum-laude PhD on ontology alignment in logistics. From its start, he provides technical support to the Digital Transport and Logistics Forum, an expert group raised and chaired by EC DG Move for providing input to the European Mobility Data Space (EMDS).</p>
+            </div>
           </div>
         </section>
       )}
