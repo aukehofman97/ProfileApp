@@ -194,6 +194,11 @@ const App = () => {
               <p>Supply and logistics are our primary market. It is about movement, storage, handling, and value-added services for products, compliant with regulations. We enable paperless logistics and production, based on capabilities and requirements of authorities. Electronic Freight Transport Information Regulation (eFTI) and Digital Product Passports (DPP) are two examples of such. By providing templates, especially Small and Medium sized Enterprises (SMEs) are able to digitize business with all customers and these customers, including larger Logistics Service Providers, are able to do the same.</p>
             </div>
           </div>
+
+          <div className="about-bio-section">
+            <h2>About Wout Hofman</h2>
+            <p>Wout Hofman, PhD in business administration and computer science (1994), is skilled in accessing business requirements and transforming them in (innovative) solutions. He has over 40 years of experience in data sharing in trade and logistics but also worked extensively in other business areas like the public sector, travel and tourism and industry. Wout has amongst others published three books (EDI Handboek (1989), A Conceptual Model of Business Transaction Management System (1994) and EDI, Web Services and ebXML (2003)). He is very active as (co-)author of over 120 scientific, peer reviewed papers. He was co-promotor of Majeed Mohammadi, who received a cum-laude PhD on ontology alignment in logistics. From its start, he provides technical support to the Digital Transport and Logistics Forum, an expert group raised and chaired by EC DG Move for providing input to the European Mobility Data Space (EMDS).</p>
+          </div>
         </section>
       )}
 
